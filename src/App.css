@@ -1,16 +1,23 @@
+/* App.css */
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+nav a {
+  color: #2C3E50; /* Темно-синий цвет ссылок */
+  text-decoration: none; /* Убираем подчеркивание */
+  font-weight: bold; /* Делаем текст жирным */
+  margin: 0 15px; /* Отступы между ссылками */
+  transition: color 0.3s ease, transform 0.3s ease; /* Плавная анимация цвета и перемещения */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+nav a:hover {
+  color: #E67E22; /* Цвет при наведении (акцентный) */
+  transform: translateY(-3px); /* Легкий сдвиг вверх при наведении */
+}
+
+nav a:active {
+  transform: scale(0.95); /* Эффект нажатия */
 }
 
 .App-header {

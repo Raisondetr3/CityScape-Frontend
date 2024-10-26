@@ -1,18 +1,30 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [role, setRole] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const userData = parseJwt(token);
+            setUser(userData);
+            setRole(userData.role);
+        }
+    }, []);
 
     const login = (token) => {
         const userData = parseJwt(token);
         setUser(userData);
+        setRole(userData.role);
         localStorage.setItem('token', token);
     };
 
     const logout = () => {
         setUser(null);
+        setRole(null);
         localStorage.removeItem('token');
     };
 
@@ -29,7 +41,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, login, logout }}>
+        <UserContext.Provider value={{ user, role, login, logout }}>
             {children}
         </UserContext.Provider>
     );

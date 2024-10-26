@@ -1,0 +1,60 @@
+/* HelloPage.css */
+.hello-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Полная высота экрана */
+    background-color: #F8F9FA; /* Светлый нейтральный фон */
+    overflow: hidden;
+}
+
+.hello-page-container main {
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInUp 1.5s ease-out forwards; /* Анимация появления */
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Плавное перемещение вверх */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hello-page-container h1 {
+    font-size: 36px; /* Уменьшенный размер заголовка */
+    color: #34495E; /* Темно-синий основной цвет */
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.hello-page-container p {
+    font-size: 18px; /* Увеличенный размер для удобства чтения */
+    color: #7F8C8D; /* Средний серый для текста */
+    margin-bottom: 20px;
+    max-width: 600px;
+}
+
+.hello-page-container .cta-button {
+    padding: 12px 35px;
+    font-size: 16px;
+    background-color: #3498DB; /* Яркий синий цвет для кнопок */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px; /* Отступы между кнопками */
+}
+
+.hello-page-container .cta-button:hover {
+    background-color: #2980B9; /* Темнее при наведении */
+}

@@ -6,6 +6,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [isAdminRequest, setIsAdminRequest] = useState(false);
 
     const validatePassword = (password) => {
         const minLength = 6;
@@ -40,9 +41,19 @@ const Register = () => {
                 return;
             }
 
-            // После успешной регистрации показать сообщение
-            setSuccessMessage('Регистрация успешна! Теперь вы можете войти в аккаунт.');
-            setUsername(''); // Сбрасываем поля
+            // Проверка наличия администратора в системе
+            const adminCheck = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin-exists`, {
+                method: 'GET',
+            });
+            const adminExists = await adminCheck.json();
+
+            if (adminExists) {
+                setIsAdminRequest(true);
+                setSuccessMessage('Заявка на права администратора отправлена. Ожидайте подтверждения.');
+            } else {
+                setSuccessMessage('Регистрация успешна! Вы стали администратором.');
+            }
+            setUsername(''); // Сброс полей
             setPassword('');
 
         } catch (error) {
@@ -74,6 +85,7 @@ const Register = () => {
                 </div>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
                 {successMessage && <p className="success-message">{successMessage}</p>}
+                {isAdminRequest && <p>Администратор рассмотрит вашу заявку.</p>}
                 <button type="submit">Зарегистрироваться</button>
             </form>
         </div>
