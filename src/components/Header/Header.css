@@ -2,7 +2,7 @@
     background-color: #2A4A75;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0 20px;
     height: 60px;
     box-sizing: border-box;
@@ -17,19 +17,41 @@
     color: #E1E6EA;
     font-size: 20px;
     font-family: 'Roboto-Bold', sans-serif;
-    margin: 0;
-    text-align: center;
-    flex: 1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .header-actions {
     display: flex;
     align-items: center;
+    margin-left: auto;
 }
 
 .header-icon {
     cursor: pointer;
     width: 24px;
     height: 24px;
-    margin-right: 45px; /* Смещаем иконку заявок левее кнопки выхода */
+    margin-right: 45px;
+}
+
+.icon-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip {
+    position: absolute;
+    top: 110%; /* Смещаем подсказку ниже иконки */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.2s;
 }

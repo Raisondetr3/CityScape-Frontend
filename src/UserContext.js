@@ -78,7 +78,7 @@ export const UserProvider = ({ children }) => {
             });
             const message = await response.text();
             setRequestStatus('pending');
-            setHasRequestedAdminRole(true); // Устанавливаем, что запрос был отправлен
+            setHasRequestedAdminRole(true);
             return message;
         } catch (error) {
             console.error('Ошибка при запросе на роль администратора', error);
@@ -95,14 +95,8 @@ export const UserProvider = ({ children }) => {
             });
             const status = await response.text();
 
-            if (status === "Ваша заявка на администратора находится в ожидании.") {
+            if (status === "Ваша заявка на администратора находится в ожидании." || status === "Ваша заявка одобрена." || status === "Ваша заявка отклонена.") {
                 setRequestStatus('pending');
-                setHasRequestedAdminRole(true);
-            } else if (status === "Ваша заявка одобрена. Вы теперь администратор.") {
-                setRequestStatus('accepted');
-                setHasRequestedAdminRole(true);
-            } else if (status === "Ваша заявка отклонена.") {
-                setRequestStatus('rejected');
                 setHasRequestedAdminRole(true);
             } else {
                 setRequestStatus(null);
@@ -114,8 +108,17 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, role, login, logout, requestAdminRole, requestStatus, hasRequestedAdminRole }}>
+        <UserContext.Provider value={{
+            user,
+            role,
+            login,
+            logout,
+            requestAdminRole,
+            requestStatus,
+            hasRequestedAdminRole,
+            checkRequestStatus }}>
             {children}
         </UserContext.Provider>
     );
+
 };
