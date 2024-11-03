@@ -1,23 +1,22 @@
-/* App.css */
 .App {
   text-align: center;
 }
 
 nav a {
-  color: #2C3E50; /* Темно-синий цвет ссылок */
-  text-decoration: none; /* Убираем подчеркивание */
-  font-weight: bold; /* Делаем текст жирным */
-  margin: 0 15px; /* Отступы между ссылками */
-  transition: color 0.3s ease, transform 0.3s ease; /* Плавная анимация цвета и перемещения */
+  color: #2C3E50;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 15px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 nav a:hover {
-  color: #E67E22; /* Цвет при наведении (акцентный) */
-  transform: translateY(-3px); /* Легкий сдвиг вверх при наведении */
+  color: #E67E22;
+  transform: translateY(-3px);
 }
 
 nav a:active {
-  transform: scale(0.95); /* Эффект нажатия */
+  transform: scale(0.95);
 }
 
 .App-header {

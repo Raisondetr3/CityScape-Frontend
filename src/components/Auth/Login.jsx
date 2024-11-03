@@ -29,7 +29,7 @@ const Login = () => {
             }
 
             const data = await response.json();
-            login(data.token); // Передача токена в login для обработки роли и перенаправления
+            login(data.token);
             setSuccessMessage('Вход успешен! Вы будете перенаправлены.');
 
         } catch (error) {

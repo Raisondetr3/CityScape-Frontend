@@ -4,8 +4,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Полная высота экрана */
-    background-color: #F8F9FA; /* Светлый нейтральный фон */
+    height: 100vh;
+    background-color: #F8F9FA;
     overflow: hidden;
 }
 
@@ -15,13 +15,13 @@
     max-width: 800px;
     opacity: 0;
     transform: translateY(-20px);
-    animation: fadeInUp 1.5s ease-out forwards; /* Анимация появления */
+    animation: fadeInUp 1.5s ease-out forwards;
 }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px); /* Плавное перемещение вверх */
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -30,15 +30,15 @@
 }
 
 .hello-page-container h1 {
-    font-size: 36px; /* Уменьшенный размер заголовка */
-    color: #34495E; /* Темно-синий основной цвет */
+    font-size: 36px;
+    color: #34495E;
     font-weight: 700;
     margin-bottom: 15px;
 }
 
 .hello-page-container p {
-    font-size: 18px; /* Увеличенный размер для удобства чтения */
-    color: #7F8C8D; /* Средний серый для текста */
+    font-size: 18px;
+    color: #7F8C8D;
     margin-bottom: 20px;
     max-width: 600px;
 }
@@ -46,20 +46,20 @@
 .hello-page-container .cta-button {
     padding: 12px 35px;
     font-size: 16px;
-    background-color: #3498DB; /* Яркий синий цвет для кнопок */
+    background-color: #3498DB;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 10px; /* Отступы между кнопками */
+    margin: 10px;
     display: flex;
-    gap: 10px; /* Расстояние между кнопками */
+    gap: 10px;
     justify-content: center;
 }
 
 .hello-page-container .cta-button:hover {
-    background-color: #2980B9; /* Темнее при наведении */
+    background-color: #2980B9;
 }
 
 
