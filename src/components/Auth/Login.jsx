@@ -1,15 +1,13 @@
 import React, { useState, useContext } from 'react';
-import './Auth.css';
+import '../../styles/Auth.css';
 import { UserContext } from '../../UserContext';
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const { login, role } = useContext(UserContext);
+    const { login } = useContext(UserContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,15 +29,8 @@ const Login = () => {
             }
 
             const data = await response.json();
-            login(data.token);
+            login(data.token); // Передача токена в login для обработки роли и перенаправления
             setSuccessMessage('Вход успешен! Вы будете перенаправлены.');
-
-            // Перенаправление на страницу в зависимости от роли
-            if (role === 'ADMIN') {
-                navigate('/admin');
-            } else {
-                navigate('/user');
-            }
 
         } catch (error) {
             setErrorMessage('Произошла ошибка при авторизации.');

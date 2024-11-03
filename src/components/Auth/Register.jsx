@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Auth.css';
+import '../../styles/Auth.css';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -51,7 +51,7 @@ const Register = () => {
                 setIsAdminRequest(true);
                 setSuccessMessage('Заявка на права администратора отправлена. Ожидайте подтверждения.');
             } else {
-                setSuccessMessage('Регистрация успешна! Вы стали администратором.');
+                setSuccessMessage('Регистрация успешна!');
             }
             setUsername(''); // Сброс полей
             setPassword('');

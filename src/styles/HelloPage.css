@@ -53,8 +53,13 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin: 10px; /* Отступы между кнопками */
+    display: flex;
+    gap: 10px; /* Расстояние между кнопками */
+    justify-content: center;
 }
 
 .hello-page-container .cta-button:hover {
     background-color: #2980B9; /* Темнее при наведении */
 }
+
+

@@ -1,0 +1,17 @@
+/* components/Header/LogoutButton.css */
+.logout-button {
+    background: none;
+    border: none;
+    color: #E1E6EA;
+    font-size: 14px;
+    font-family: 'Roboto-Regular', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.logout-icon {
+    width: 20px;
+    height: 20px;
+}
