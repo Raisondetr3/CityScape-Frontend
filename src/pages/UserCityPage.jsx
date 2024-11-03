@@ -3,11 +3,11 @@ import Header from '../components/Header/UserHeader';
 import MainButtonsCity from '../components/MainButtons/MainButtonsCity';
 import '../styles/Main.css';
 
-function UserCityPage({ onLogout, onRequestAdmin }) {
+function UserCityPage({ onLogout, onRequestAdmin, role }) {
     return (
         <div className="admin-container">
             <Header onLogout={onLogout} onRequestAdmin={onRequestAdmin} />
-            <MainButtonsCity />
+            <MainButtonsCity role={role} />
         </div>
     );
 }
