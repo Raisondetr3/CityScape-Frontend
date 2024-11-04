@@ -95,7 +95,9 @@ export const UserProvider = ({ children }) => {
             });
             const status = await response.text();
 
-            if (status === "Ваша заявка на администратора находится в ожидании." || status === "Ваша заявка одобрена." || status === "Ваша заявка отклонена.") {
+            if (status === "Ваша заявка на администратора находится в ожидании."
+                || status === "Ваша заявка одобрена."
+                || status === "Ваша заявка отклонена.") {
                 setRequestStatus('pending');
                 setHasRequestedAdminRole(true);
             } else {

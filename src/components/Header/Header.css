@@ -33,6 +33,12 @@
     width: 24px;
     height: 24px;
     margin-right: 45px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.header-icon:hover {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.6);
+    transform: scale(1.1);
 }
 
 .icon-container {
@@ -42,16 +48,25 @@
 
 .tooltip {
     position: absolute;
-    top: 110%; /* Смещаем подсказку ниже иконки */
+    top: 110%; /* Позиционирование ниже иконки */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
-    padding: 5px 10px;
+    background-color: #333333;
+    color: #FFFFFF;
+    padding: 8px 12px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 14px;
+    font-family: 'Roboto-Regular', sans-serif;
     white-space: nowrap;
     z-index: 1;
+    opacity: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: opacity 0.2s ease, visibility 0s;
+    visibility: hidden;
+}
+
+.icon-container:hover .tooltip {
+    visibility: visible;
     opacity: 1;
-    transition: opacity 0.2s;
+    transition-delay: 0s; /* Показываем сразу */
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/Header/UserHeader';
-import MainButtonsHuman from '../components/MainButtons/MainButtonsHuman';
+import MainButtonsHuman from '../components/Buttons/MainButtons/MainButtonsHuman';
 import '../styles/Main.css';
 
 function UserCityPage({ onLogout, onRequestAdmin, role }) {

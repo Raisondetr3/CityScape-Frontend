@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import addAdminIcon from '../../assets/add-admin.svg';
-import LogoutButton from './LogoutButton';
+import LogoutButton from '../Buttons/LogoutButton/LogoutButton';
 import './Header.css';
 import { UserContext } from '../../UserContext';
 
@@ -17,9 +17,16 @@ const UserHeader = ({ onLogout }) => {
     const handleRequestAdmin = () => {
         if (requestStatus === 'pending') {
             alert("Вы уже отправили заявку, и она находится на рассмотрении.");
+        } else if (requestStatus === 'rejected') {
+            requestAdminRole(user.userId);
+            alert("Ваша заявка на получение прав администратора отклонена.");
+        } else if (requestStatus === 'none') {
+            requestAdminRole(user.userId);
+            alert("Заявка на получение прав администратора");
         } else {
             requestAdminRole(user.userId);
-            alert("Запрос на получение прав администратора отправлен.");
+            alert("Заявка на получение прав администратора одобрена." +
+                " Перезайдите в аккаунт, чтобы перейти на `Admin Dashboard`");
         }
     };
 

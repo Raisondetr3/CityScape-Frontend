@@ -1,0 +1,21 @@
+.accept-button {
+    width: 102px;
+    height: 34px;
+    background-color: #4CAF50;
+    color: #E1E6EA;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.reject-button {
+    width: 102px;
+    height: 34px;
+    background-color: #F44336;
+    color: #E1E6EA;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}

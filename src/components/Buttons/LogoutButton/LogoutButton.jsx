@@ -1,5 +1,5 @@
 import React from 'react';
-import logoutIcon from '../../assets/logout-icon.svg';
+import logoutIcon from '../../../assets/logout-icon.svg';
 import './LogoutButton.css';
 
 const LogoutButton = ({ onLogout }) => {

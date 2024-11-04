@@ -1,0 +1,37 @@
+.admin-requests-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    width: 360px;
+    max-height: 480px;
+    overflow-y: auto;
+    background-color: #F8F9FA;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.admin-requests-dropdown.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.admin-requests-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.admin-requests-dropdown::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.no-requests {
+    color: #333333;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 20px;
+}

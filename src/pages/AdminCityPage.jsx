@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/Header/AdminHeader';
-import MainButtonsCity from '../components/MainButtons/MainButtonsCity';
+import MainButtonsCity from '../components/Buttons/MainButtons/MainButtonsCity';
 import '../styles/Main.css';
 
 function AdminCityPage({ onLogout, role }) {
