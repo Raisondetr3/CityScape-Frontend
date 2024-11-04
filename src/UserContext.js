@@ -77,13 +77,20 @@ export const UserProvider = ({ children }) => {
                 body: JSON.stringify({ userId }),
             });
             const message = await response.text();
-            setRequestStatus('pending');
-            setHasRequestedAdminRole(true);
-            return message;
+
+            if (message.includes("User has been granted ADMIN rights immediately")) {
+                setRole('ADMIN');
+                alert("Заявка на получение прав администратора одобрена. Перезайдите в аккаунт, чтобы перейти на Admin Dashboard.");
+            } else if (message.includes("Admin approval requested")) {
+                setRequestStatus('pending');
+                setHasRequestedAdminRole(true);
+                alert("Заявка на получение прав администратора отправлена.");
+            }
         } catch (error) {
             console.error('Ошибка при запросе на роль администратора', error);
         }
     };
+
 
     const checkRequestStatus = async (userId) => {
         try {

@@ -17,16 +17,8 @@ const UserHeader = ({ onLogout }) => {
     const handleRequestAdmin = () => {
         if (requestStatus === 'pending') {
             alert("Вы уже отправили заявку, и она находится на рассмотрении.");
-        } else if (requestStatus === 'rejected') {
-            requestAdminRole(user.userId);
-            alert("Ваша заявка на получение прав администратора отклонена.");
-        } else if (requestStatus === 'none') {
-            requestAdminRole(user.userId);
-            alert("Заявка на получение прав администратора");
         } else {
             requestAdminRole(user.userId);
-            alert("Заявка на получение прав администратора одобрена." +
-                " Перезайдите в аккаунт, чтобы перейти на `Admin Dashboard`");
         }
     };
 

@@ -3,7 +3,7 @@ import Header from '../components/Header/UserHeader';
 import MainButtonsCoordinate from '../components/Buttons/MainButtons/MainButtonsCoordinate';
 import '../styles/Main.css';
 
-function UserCityPage({ onLogout, onRequestAdmin, role }) {
+function UserCoordinatePage({ onLogout, onRequestAdmin, role }) {
     return (
         <div className="admin-container">
             <Header onLogout={onLogout} onRequestAdmin={onRequestAdmin} />
@@ -12,4 +12,4 @@ function UserCityPage({ onLogout, onRequestAdmin, role }) {
     );
 }
 
-export default UserCityPage;
+export default UserCoordinatePage;
