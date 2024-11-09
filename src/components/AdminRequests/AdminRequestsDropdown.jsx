@@ -14,7 +14,7 @@ const AdminRequestsDropdown = ({ isVisible }) => {
     const fetchAdminRequests = async () => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin-requests`, {
+            const response = await fetch(`${process.env.Auth}/admin-requests`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

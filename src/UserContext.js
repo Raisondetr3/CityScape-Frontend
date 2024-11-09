@@ -68,7 +68,7 @@ export const UserProvider = ({ children }) => {
     const requestAdminRole = async (userId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/request-admin`, {
+            const response = await fetch(`${process.env.REACT_APP_AUTH}/request-admin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export const UserProvider = ({ children }) => {
     const checkRequestStatus = async (userId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin-requests/status?userId=${userId}`, {
+            const response = await fetch(`${process.env.REACT_APP_AUTH}/admin-requests/status?userId=${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

@@ -27,7 +27,7 @@ const Register = () => {
         setErrorMessage('');
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/register`, {
+            const response = await fetch(`${process.env.REACT_APP_AUTH}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const Register = () => {
             }
 
             // Проверка наличия администратора в системе
-            const adminCheck = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin-exists`, {
+            const adminCheck = await fetch(`${process.env.REACT_APP_AUTH}/admin-exists`, {
                 method: 'GET',
             });
             const adminExists = await adminCheck.json();

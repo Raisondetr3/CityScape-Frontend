@@ -3,6 +3,7 @@ import Header from '../components/Header/UserHeader';
 import MainButtonsCity from '../components/Buttons/MainButtons/MainButtonsCity';
 import '../styles/Main.css';
 import SearchBar from "../components/SearchBar/SearchBar";
+import MainButtonPanel from "../components/ActionControls/MainButtonPanel";
 
 function UserCityPage({ onLogout, onRequestAdmin, role }) {
     return (
@@ -12,6 +13,7 @@ function UserCityPage({ onLogout, onRequestAdmin, role }) {
             <div className="search-bar-wrapper">
                 <SearchBar placeholder="Искать по name" />
             </div>
+            <MainButtonPanel />
         </div>
     );
 }
