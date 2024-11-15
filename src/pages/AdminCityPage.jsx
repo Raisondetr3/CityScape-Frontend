@@ -4,11 +4,15 @@ import MainButtonsCity from '../components/Buttons/MainButtons/MainButtonsCity';
 import SearchBar from '../components/SearchBar/SearchBar';
 import MainButtonPanel from '../components/ActionControls/MainButtonPanel';
 import '../styles/Main.css';
-import CityTable from "../components/Tables/CityTable/CityTable";
+import CityTable from '../components/Tables/CityTable/CityTable';
+import AddCityButton from '../components/Buttons/AddCityButton/AddCityButton';
+import AddCityForm from '../components/Forms/CityForm/AddCityForm';
 
 function AdminCityPage({ onLogout, role }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [governorSearchTerm, setGovernorSearchTerm] = useState('');
+    const [isFormOpen, setFormOpen] = useState(false);
+    const [cities, setCities] = useState([]);
 
     const handleNameSearch = (term) => {
         setSearchTerm(term);
@@ -16,6 +20,19 @@ function AdminCityPage({ onLogout, role }) {
 
     const handleGovernorSearch = (term) => {
         setGovernorSearchTerm(term);
+    };
+
+    const handleAddCity = () => {
+        setFormOpen(true);
+    };
+
+    const handleFormClose = () => {
+        setFormOpen(false);
+    };
+
+    const handleCityAdded = (newCity) => {
+        setFormOpen(false);
+        setCities((prevCities) => [...prevCities, newCity]);
     };
 
     return (
@@ -28,7 +45,16 @@ function AdminCityPage({ onLogout, role }) {
                 <SearchBar placeholder="Искать по governor" onSearch={handleGovernorSearch} />
             </div>
             <MainButtonPanel />
-            <CityTable searchTerm={searchTerm} governorSearchTerm={governorSearchTerm} />
+            <div className="add-city-button-wrapper">
+                <AddCityButton onClick={handleAddCity} />
+            </div>
+            <CityTable
+                cities={cities}
+                setCities={setCities}
+                searchTerm={searchTerm}
+                governorSearchTerm={governorSearchTerm}
+            />
+            {isFormOpen && <AddCityForm onClose={handleFormClose} onSubmit={handleCityAdded} />}
         </div>
     );
 }

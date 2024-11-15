@@ -1,0 +1,25 @@
+.add-city-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007BFF;
+    color: #E1E6EA;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 15px;
+    gap: 10px; /* Расстояние между иконкой и текстом */
+    cursor: pointer;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-city-button:hover {
+    background-color: #0056b3;
+}
+
+.plus-icon {
+    width: 20px;
+    height: 20px;
+}

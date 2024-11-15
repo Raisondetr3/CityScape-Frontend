@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import './CityTable.css';
 import editIcon from '../../../assets/edit-icon.svg';
 import deleteIcon from '../../../assets/delete-icon.svg';
+import EditCityForm from '../../Forms/CityForm/EditCityForm';
 
-function CityTable({ searchTerm, governorSearchTerm }) {
-    const [cities, setCities] = useState([]);
+function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+    const [cityToEdit, setCityToEdit] = useState(null);
 
     useEffect(() => {
-        fetchCities(currentPage, searchTerm, governorSearchTerm);
+        if (cities.length === 0) {
+            fetchCities(currentPage, searchTerm, governorSearchTerm);
+        }
     }, [currentPage, searchTerm, governorSearchTerm]);
 
     const fetchCities = async (page, name, governorName) => {
@@ -39,14 +43,27 @@ function CityTable({ searchTerm, governorSearchTerm }) {
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            fetchCities(currentPage, searchTerm, governorSearchTerm);
+            setCities((prevCities) => prevCities.filter((city) => city.id !== id));
         } catch (error) {
             console.error('Ошибка при удалении:', error);
         }
     };
 
-    const handleEdit = (id) => {
-        alert(`Редактировать объект с ID ${id}`);
+    const handleEdit = (city) => {
+        setCityToEdit(city);
+        setIsEditFormOpen(true);
+    };
+
+    const handleEditFormClose = () => {
+        setIsEditFormOpen(false);
+        setCityToEdit(null);
+    };
+
+    const handleCityUpdated = (updatedCity) => {
+        setIsEditFormOpen(false);
+        setCities((prevCities) =>
+            prevCities.map((city) => (city.id === updatedCity.id ? updatedCity : city))
+        );
     };
 
     return (
@@ -70,26 +87,38 @@ function CityTable({ searchTerm, governorSearchTerm }) {
                 {cities.length === 0 ? (
                     <div className="no-data">Не создано ни одного объекта</div>
                 ) : (
-                    cities.map((city, index) => (
-                        <div className={`table-row ${index % 2 === 0 ? 'even' : 'odd'}`} key={city.id}>
-                            <div>{city.name}</div>
-                            <div>X: {city.coordinates.x}, Y: {city.coordinates.y}</div>
-                            <div>{city.creationDate}</div>
-                            <div>{city.area}</div>
-                            <div>{city.population}</div>
-                            <div>{city.establishmentDate}</div>
-                            <div>{String(city.capital)}</div>
-                            <div>{city.metersAboveSeaLevel}</div>
-                            <div>{city.climate}</div>
-                            <div>{city.government}</div>
-                            <div>{city.standardOfLiving}</div>
-                            <div className="governor-link">{city.governor.name}</div>
-                            <div className="action-icons">
-                                <img src={editIcon} alt="Edit" onClick={() => handleEdit(city.id)} />
-                                <img src={deleteIcon} alt="Delete" onClick={() => handleDelete(city.id)} />
+                    cities.map((city, index) =>
+                        city ? (
+                            <div className={`table-row ${index % 2 === 0 ? 'even' : 'odd'}`} key={city.id}>
+                                <div>{city.name || 'N/A'}</div>
+                                <div>
+                                    {city.coordinates
+                                        ? `X: ${city.coordinates.x}, Y: ${city.coordinates.y}`
+                                        : 'N/A'}
+                                </div>
+                                <div>{city.creationDate || 'N/A'}</div>
+                                <div>{city.area || 'N/A'}</div>
+                                <div>{city.population || 'N/A'}</div>
+                                <div>{city.establishmentDate || 'N/A'}</div>
+                                <div>{String(city.capital) || 'N/A'}</div>
+                                <div>{city.metersAboveSeaLevel || 'N/A'}</div>
+                                <div>{city.climate || 'N/A'}</div>
+                                <div>{city.government || 'N/A'}</div>
+                                <div>{city.standardOfLiving || 'N/A'}</div>
+                                <div className="governor-link">
+                                    {city.governor?.name || 'N/A'}
+                                </div>
+                                <div className="action-icons">
+                                    <img src={editIcon} alt="Edit" onClick={() => handleEdit(city)} />
+                                    <img src={deleteIcon} alt="Delete" onClick={() => handleDelete(city.id)} />
+                                </div>
                             </div>
-                        </div>
-                    ))
+                        ) : (
+                            <div key={index} className="table-row no-data">
+                                Некорректные данные
+                            </div>
+                        )
+                    )
                 )}
             </div>
             {totalPages > 1 && (
@@ -101,6 +130,13 @@ function CityTable({ searchTerm, governorSearchTerm }) {
                         <button onClick={() => setCurrentPage(currentPage + 1)}>Вперёд</button>
                     )}
                 </div>
+            )}
+            {isEditFormOpen && cityToEdit && (
+                <EditCityForm
+                    cityData={cityToEdit}
+                    onClose={handleEditFormClose}
+                    onSubmit={handleCityUpdated}
+                />
             )}
         </div>
     );

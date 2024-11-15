@@ -2,16 +2,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 60px;
+    margin-top: 5px;
 }
 
 .city-table-container {
-    width: 1200px;
+    width: 1260px;
 }
 
 .table-header, .table-row {
     display: grid;
-    grid-template-columns: 77px 125px 81px 80px 90px 150px 60px 39px 110px 88px 88px 136px auto;
+    grid-template-columns: 77px 125px 81px 80px 90px 150px 60px 39px 110px 140px 88px 136px auto;
     height: 50px;
     align-items: center;
     padding: 0 8px;

@@ -5,7 +5,7 @@ import deleteIcon from '../../../assets/delete-icon.svg';
 
 function CityTableRow({ city }) {
     const handleEdit = () => {
-        // Здесь будет логика редактирования объекта
+        // TODO логика редактирования объекта
         console.log(`Редактировать ${city.name}`);
     };
 
