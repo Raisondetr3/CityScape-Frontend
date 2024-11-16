@@ -6,7 +6,7 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import MainButtonPanel from "../components/ActionControls/MainButtonPanel";
 import CityTable from "../components/Tables/CityTable/CityTable";
 import AddCityButton from "../components/Buttons/AddCityButton/AddCityButton";
-import AddCityForm from "../components/Forms/CityForm/AddCityForm";
+import AddCityForm from "../components/Forms/CityForms/AddCityForm";
 
 function UserCityPage({ onLogout, onRequestAdmin, role }) {
     const [searchTerm, setSearchTerm] = useState('');

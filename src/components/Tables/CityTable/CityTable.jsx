@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './CityTable.css';
 import editIcon from '../../../assets/edit-icon.svg';
 import deleteIcon from '../../../assets/delete-icon.svg';
-import EditCityForm from '../../Forms/CityForm/EditCityForm';
+import EditCityForm from '../../Forms/CityForms/EditCityForm';
+import { UserContext } from '../../../UserContext';
 
 function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
     const [currentPage, setCurrentPage] = useState(0);
@@ -10,10 +11,10 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
     const [cityToEdit, setCityToEdit] = useState(null);
 
+    const { user, role } = useContext(UserContext);
+
     useEffect(() => {
-        if (cities.length === 0) {
-            fetchCities(currentPage, searchTerm, governorSearchTerm);
-        }
+        fetchCities(currentPage, searchTerm, governorSearchTerm);
     }, [currentPage, searchTerm, governorSearchTerm]);
 
     const fetchCities = async (page, name, governorName) => {
@@ -34,22 +35,43 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
         }
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id, city) => {
+        if (city.createdBy?.id !== user.userId && role !== 'ADMIN') {
+            alert('У вас нет разрешения на удаление этого города.');
+            return;
+        }
+
         try {
             const token = localStorage.getItem('token');
-            await fetch(`${process.env.REACT_APP_CITY}/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_CITY}/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
+
+            if (!response.ok) {
+                if (response.status === 403) {
+                    alert('У вас нет разрешения на удаление этого города.');
+                } else {
+                    alert('Ошибка при удалении города.');
+                }
+                return;
+            }
+
             setCities((prevCities) => prevCities.filter((city) => city.id !== id));
+            alert('Город успешно удалён.');
         } catch (error) {
             console.error('Ошибка при удалении:', error);
+            alert('Ошибка при удалении города.');
         }
     };
 
     const handleEdit = (city) => {
+        if (city.createdBy?.id !== user.userId && role !== 'ADMIN') {
+            alert('У вас нет разрешения на редактирование этого города.');
+            return;
+        }
         setCityToEdit(city);
         setIsEditFormOpen(true);
     };
@@ -109,8 +131,14 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
                                     {city.governor?.name || 'N/A'}
                                 </div>
                                 <div className="action-icons">
-                                    <img src={editIcon} alt="Edit" onClick={() => handleEdit(city)} />
-                                    <img src={deleteIcon} alt="Delete" onClick={() => handleDelete(city.id)} />
+                                    {(city.createdBy?.id === user.userId || role === 'ADMIN') ? (
+                                        <>
+                                            <img src={editIcon} alt="Edit" onClick={() => handleEdit(city)} />
+                                            <img src={deleteIcon} alt="Delete" onClick={() => handleDelete(city.id, city)} />
+                                        </>
+                                    ) : (
+                                        <div>Нет прав</div>
+                                    )}
                                 </div>
                             </div>
                         ) : (
