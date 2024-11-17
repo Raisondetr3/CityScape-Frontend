@@ -3,49 +3,36 @@ import './CityTable.css';
 import editIcon from '../../../assets/edit-icon.svg';
 import deleteIcon from '../../../assets/delete-icon.svg';
 
-function CityTableRow({ city }) {
-    const handleEdit = () => {
-        console.log(`Редактировать ${city.name}`);
-    };
-
-    const handleDelete = async () => {
-        const token = localStorage.getItem('token');
-        try {
-            const response = await fetch(`${process.env.REACT_APP_CITY}/${city.name}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.ok) {
-                alert(`Город ${city.name} удален`);
-            } else {
-                alert('Ошибка при удалении города');
-            }
-        } catch (error) {
-            console.error('Ошибка при удалении города:', error);
-        }
-    };
-
+function CityTableRow({ city, index, handleEdit, handleDelete, user, role }) {
     return (
-        <div className={`city-table-row ${city.id % 2 === 0 ? 'even-row' : 'odd-row'}`}>
-            <div className="row-cell">{city.name}</div>
-            <div className="row-cell">X: {city.coordinates.x}, Y: {city.coordinates.y}</div>
-            <div className="row-cell">{city.creationDate}</div>
-            <div className="row-cell">{city.area}</div>
-            <div className="row-cell">{city.population}</div>
-            <div className="row-cell">{city.establishmentDate}</div>
-            <div className="row-cell">{String(city.capital)}</div>
-            <div className="row-cell">{city.metersAboveSeaLevel}</div>
-            <div className="row-cell">{city.climate}</div>
-            <div className="row-cell">{city.government}</div>
-            <div className="row-cell">{city.standardOfLiving}</div>
-            <div className="row-cell">
-                <a href={`/humans/${city.governor.id}`} className="link-text">{city.governor.name}</a>
+        <div className={`city-table-row ${index % 2 === 0 ? 'even' : 'odd'}`} key={city.id}>
+            <div>{city.name || 'N/A'}</div>
+            <div>
+                {city.coordinates
+                    ? `X: ${city.coordinates.x}, Y: ${city.coordinates.y}`
+                    : 'N/A'}
             </div>
-            <div className="row-cell actions-cell">
-                <img src={editIcon} alt="Edit" onClick={handleEdit} />
-                <img src={deleteIcon} alt="Delete" onClick={handleDelete} />
+            <div>{city.creationDate || 'N/A'}</div>
+            <div>{city.area || 'N/A'}</div>
+            <div>{city.population || 'N/A'}</div>
+            <div>{city.establishmentDate || 'N/A'}</div>
+            <div>{String(city.capital) || 'N/A'}</div>
+            <div>{city.metersAboveSeaLevel || 'N/A'}</div>
+            <div>{city.climate || 'N/A'}</div>
+            <div>{city.government || 'N/A'}</div>
+            <div>{city.standardOfLiving || 'N/A'}</div>
+            <div className="governor-link">
+                {city.governor?.name || 'N/A'}
+            </div>
+            <div className="action-icons">
+                {(city.createdBy?.id === user.userId || role === 'ADMIN') ? (
+                    <>
+                        <img src={editIcon} alt="Edit" onClick={() => handleEdit(city)} />
+                        <img src={deleteIcon} alt="Delete" onClick={() => handleDelete(city.id, city)} />
+                    </>
+                ) : (
+                    <div>Нет прав</div>
+                )}
             </div>
         </div>
     );

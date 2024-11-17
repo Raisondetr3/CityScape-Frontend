@@ -1,4 +1,4 @@
-.add-city-button {
+.add-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,12 +10,12 @@
     border: none;
     border-radius: 5px;
     padding: 7px 15px;
-    gap: 10px; /* Расстояние между иконкой и текстом */
+    gap: 10px;
     cursor: pointer;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.add-city-button:hover {
+.add-human-button:hover {
     background-color: #0056b3;
 }
 

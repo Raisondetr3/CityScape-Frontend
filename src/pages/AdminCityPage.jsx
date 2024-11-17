@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Header from '../components/Header/AdminHeader';
+import Header from '../components/Headers/AdminHeader';
 import MainButtonsCity from '../components/Buttons/MainButtons/MainButtonsCity';
 import SearchBar from '../components/SearchBar/SearchBar';
 import MainButtonPanel from '../components/ActionControls/MainButtonPanel';
 import '../styles/Main.css';
 import CityTable from '../components/Tables/CityTable/CityTable';
-import AddCityButton from '../components/Buttons/AddCityButton/AddCityButton';
+import AddCityButton from '../components/Buttons/AddButtons/AddCityButton';
 import AddCityForm from '../components/Forms/CityForms/AddCityForm';
 
 function AdminCityPage({ onLogout, role }) {
@@ -36,10 +36,10 @@ function AdminCityPage({ onLogout, role }) {
     };
 
     return (
-        <div className="admin-container">
+        <div className="main-container">
             <Header onLogout={onLogout} />
             <MainButtonsCity role={role} />
-            <div className="search-bar-wrapper">
+            <div className="search-bar-wrapper spread">
                 <SearchBar placeholder="Искать по name" onSearch={handleNameSearch} />
                 <div style={{ width: '105px' }}></div>
                 <SearchBar placeholder="Искать по governor" onSearch={handleGovernorSearch} />

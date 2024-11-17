@@ -1,55 +1,24 @@
 import React from 'react';
 import './CityTable.css';
-import editIcon from '../../../assets/edit-icon.svg';
-import deleteIcon from '../../../assets/delete-icon.svg';
 
-function CityTableRow({ city }) {
-    const handleEdit = () => {
-        // TODO логика редактирования объекта
-        console.log(`Редактировать ${city.name}`);
-    };
-
-    const handleDelete = async () => {
-        const token = localStorage.getItem('token');
-        try {
-            const response = await fetch(`${process.env.REACT_APP_CITY}/${city.name}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (response.ok) {
-                alert(`Город ${city.name} удален`);
-            } else {
-                alert('Ошибка при удалении города');
-            }
-        } catch (error) {
-            console.error('Ошибка при удалении города:', error);
-        }
-    };
-
+function CityTableHeader() {
     return (
-        <div className={`city-table-row ${city.id % 2 === 0 ? 'even-row' : 'odd-row'}`}>
-            <div className="row-cell">{city.name}</div>
-            <div className="row-cell">X: {city.coordinates.x}, Y: {city.coordinates.y}</div>
-            <div className="row-cell">{city.creationDate}</div>
-            <div className="row-cell">{city.area}</div>
-            <div className="row-cell">{city.population}</div>
-            <div className="row-cell">{city.establishmentDate}</div>
-            <div className="row-cell">{String(city.capital)}</div>
-            <div className="row-cell">{city.metersAboveSeaLevel}</div>
-            <div className="row-cell">{city.climate}</div>
-            <div className="row-cell">{city.government}</div>
-            <div className="row-cell">{city.standardOfLiving}</div>
-            <div className="row-cell">
-                <a href={`/humans/${city.governor.id}`} className="link-text">{city.governor.name}</a>
-            </div>
-            <div className="row-cell actions-cell">
-                <img src={editIcon} alt="Edit" onClick={handleEdit} />
-                <img src={deleteIcon} alt="Delete" onClick={handleDelete} />
-            </div>
+        <div className="city-table-header">
+            <div>name</div>
+            <div>coordinates</div>
+            <div>creationDate</div>
+            <div>area</div>
+            <div>population</div>
+            <div>establishmentDate</div>
+            <div>capital</div>
+            <div>MASL</div>
+            <div>climate</div>
+            <div>government</div>
+            <div>SoL</div>
+            <div>governor</div>
+            <div></div>
         </div>
     );
 }
 
-export default CityTableRow;
+export default CityTableHeader;

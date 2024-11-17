@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AddCityForm.css';
+import '../Form.css';
 
 const EditCityForm = ({ cityData, onClose, onSubmit }) => {
     const [city, setCity] = useState({ ...cityData });
@@ -20,7 +20,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
             return null;
         }
 
-        // Получаем компоненты даты и времени в UTC
+        // Получение компонентове даты и времени в UTC
         const year = date.getUTCFullYear();
         const month = ('0' + (date.getUTCMonth() + 1)).slice(-2);
         const day = ('0' + date.getUTCDate()).slice(-2);
@@ -73,7 +73,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
             const data = await response.json();
             setCoordinatesList(data.content || []);
         } catch (error) {
-            console.error('Ошибка загрузки координат:', error);
+            console.error('Ошибка загрузки Coordinates:', error);
         }
     };
 
@@ -88,7 +88,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
             const data = await response.json();
             setHumanList(data.content || []);
         } catch (error) {
-            console.error('Ошибка загрузки данных человека:', error);
+            console.error('Ошибка загрузки данных Humanа:', error);
         }
     };
 
@@ -245,7 +245,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
         }
 
         if (!city.coordinates) {
-            newErrors.coordinates = 'Координаты обязательны';
+            newErrors.coordinates = 'Coordinatesы обязательны';
             valid = false;
         } else {
             if (!city.useExistingCoordinates) {
@@ -287,7 +287,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
 
         const isValid = validateAllFields();
         if (!isValid) {
-            alert('Не получилось обновить город.');
+            alert('Не получилось обновить City.');
             return;
         }
 
@@ -330,22 +330,22 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Ошибка при обновлении города');
+                throw new Error('Ошибка при обновлении Cityа');
             }
 
             const updatedCity = await response.json();
-            alert('Город успешно обновлен!');
+            alert('City успешно обновлен!');
             onSubmit(updatedCity);
         } catch (error) {
             console.error(error);
-            alert('Не удалось обновить город.');
+            alert('Не удалось обновить City.');
         }
     };
 
     return (
         <div className="form-overlay">
             <div className="form-container">
-                <h2>Редактировать город</h2>
+                <h2>Редактировать City</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name:
@@ -455,7 +455,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
                                 onChange={(e) => handleCoordinateSelect(e.target.value)}
                                 required
                             >
-                                <option value="">Выберите координаты</option>
+                                <option value="">Выберите Coordinatesы</option>
                                 {coordinatesList.map((coord) => (
                                     <option key={coord.id} value={coord.id}>
                                         X: {coord.x}, Y: {coord.y}

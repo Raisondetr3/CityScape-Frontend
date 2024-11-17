@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AddCityForm.css';
+import '../Form.css';
 
 const AddCityForm = ({ onClose, onSubmit }) => {
     const [city, setCity] = useState({
@@ -49,7 +49,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
             const data = await response.json();
             setCoordinatesList(data.content || []);
         } catch (error) {
-            console.error('Ошибка загрузки координат:', error);
+            console.error('Ошибка загрузки Coordinates:', error);
         }
     };
 
@@ -64,7 +64,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
             const data = await response.json();
             setHumanList(data.content || []);
         } catch (error) {
-            console.error('Ошибка загрузки данных человека:', error);
+            console.error('Ошибка загрузки данных Humanа:', error);
         }
     };
 
@@ -76,7 +76,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
         validateField(field, value);
     };
 
-    const handleCoordinateChange = (field, value) => {
+    const handleCoordinatesChange = (field, value) => {
         setCity(prev => ({
             ...prev,
             coordinates: {
@@ -84,7 +84,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
                 [field]: value,
             },
         }));
-        validateCoordinateField(field, value);
+        validateCoordinatesField(field, value);
     };
 
     const handleGovernorChange = (field, value) => {
@@ -98,7 +98,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
         validateGovernorField(field, value);
     };
 
-    const handleCoordinateSelect = (value) => {
+    const handleCoordinatesSelect = (value) => {
         const selectedCoordinates = coordinatesList.find(coord => coord.id === Number(value));
         setCity(prev => ({
             ...prev,
@@ -148,7 +148,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
         }));
     };
 
-    const validateCoordinateField = (field, value) => {
+    const validateCoordinatesField = (field, value) => {
         let errorMsg = '';
         if (!city.useExistingCoordinates) {
             switch (field) {
@@ -221,7 +221,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
         }
 
         if (!city.coordinates) {
-            newErrors.coordinates = 'Координаты обязательны';
+            newErrors.coordinates = 'Coordinatesы обязательны';
             valid = false;
         } else {
             if (!city.useExistingCoordinates) {
@@ -262,7 +262,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
 
         const isValid = validateAllFields();
         if (!isValid) {
-            alert('Не получилось создать город.');
+            alert('Не получилось создать City.');
             return;
         }
 
@@ -296,22 +296,22 @@ const AddCityForm = ({ onClose, onSubmit }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Ошибка при добавлении города');
+                throw new Error('Ошибка при добавлении Cityа');
             }
 
             const addedCity = await response.json();
-            alert('Город успешно добавлен!');
+            alert('City успешно добавлен!');
             onSubmit(addedCity);
         } catch (error) {
             console.error(error);
-            alert('Не удалось добавить город.');
+            alert('Не удалось добавить City.');
         }
     };
 
     return (
         <div className="form-overlay">
             <div className="form-container">
-                <h2>Добавить новый город</h2>
+                <h2>Добавить новый City</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name:
@@ -391,7 +391,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
                                     <input
                                         type="number"
                                         value={city.coordinates.x}
-                                        onChange={(e) => handleCoordinateChange('x', e.target.value)}
+                                        onChange={(e) => handleCoordinatesChange('x', e.target.value)}
                                         required
                                     />
                                     {errors.coordinates_x && <span className="error">{errors.coordinates_x}</span>}
@@ -401,7 +401,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
                                     <input
                                         type="number"
                                         value={city.coordinates.y}
-                                        onChange={(e) => handleCoordinateChange('y', e.target.value)}
+                                        onChange={(e) => handleCoordinatesChange('y', e.target.value)}
                                         required
                                     />
                                 </label>
@@ -418,10 +418,10 @@ const AddCityForm = ({ onClose, onSubmit }) => {
                         </label>
                         {city.useExistingCoordinates && (
                             <select
-                                onChange={(e) => handleCoordinateSelect(e.target.value)}
+                                onChange={(e) => handleCoordinatesSelect(e.target.value)}
                                 required
                             >
-                                <option value="">Выберите координаты</option>
+                                <option value="">Выберите Coordinatesы</option>
                                 {coordinatesList.map((coord) => (
                                     <option key={coord.id} value={coord.id}>
                                         X: {coord.x}, Y: {coord.y}
@@ -546,7 +546,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
                         )}
                         {errors.governor && <span className="error">{errors.governor}</span>}
                     </fieldset>
-                    <button type="submit">Добавить город</button>
+                    <button type="submit">Добавить City</button>
                     <button type="button" onClick={onClose}>
                         Отмена
                     </button>

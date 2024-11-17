@@ -1,50 +1,50 @@
 import React, { useEffect, useState, useContext } from 'react';
-import './CityTable.css';
+import './HumanTable.css';
 import { UserContext } from '../../../UserContext';
-import CityTableHeader from './CityTableHeader';
-import CityTableRow from './CityTableRow';
-import EditCityForm from '../../Forms/CityForms/EditCityForm';
+import HumanTableHeader from './HumanTableHeader';
+import HumanTableRow from './HumanTableRow';
 import PaginationControls from '../../Pagination/PaginationControls';
+import EditHumanForm from "../../Forms/HumanForms/EditHumanForm";
 
-function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
+function HumanTable({ humans = [], setHumans, searchTerm }) {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
-    const [cityToEdit, setCityToEdit] = useState(null);
+    const [humanToEdit, setHumanToEdit] = useState(null);
 
     const { user, role } = useContext(UserContext);
 
     useEffect(() => {
-        fetchCities(currentPage, searchTerm, governorSearchTerm);
-    }, [currentPage, searchTerm, governorSearchTerm]);
+        fetchHumans(currentPage, searchTerm);
+    }, [currentPage, searchTerm]);
 
-    const fetchCities = async (page, name, governorName) => {
+    const fetchHumans = async (page, name) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${process.env.REACT_APP_CITY}?page=${page}&name=${name || ''}&governorName=${governorName || ''}`, {
+            const response = await fetch(`${process.env.REACT_APP_HUMAN}?page=${page}&name=${name || ''}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
             const data = await response.json();
-            setCities(data.content || []);
+            setHumans(data.content || []);
             setCurrentPage(data.currentPage || 0);
             setTotalPages(data.totalPages || 0);
         } catch (error) {
             console.error('Ошибка при загрузке данных:', error);
-            setCities([]);
+            setHumans([]);
         }
     };
 
-    const handleDelete = async (id, city) => {
-        if (city.createdBy?.id !== user.userId && role !== 'ADMIN') {
-            alert('У вас нет разрешения на удаление этого City.');
+    const handleDelete = async (id, human) => {
+        if (human.createdBy?.id !== user.userId && role !== 'ADMIN') {
+            alert('У вас нет разрешения на удаление этого Humanа.');
             return;
         }
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${process.env.REACT_APP_CITY}/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_HUMAN}/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -53,54 +53,56 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
 
             if (!response.ok) {
                 if (response.status === 403) {
-                    alert('У вас нет разрешения на удаление этого City');
+                    alert('У вас нет разрешения на удаление этого Humanа');
+                } else if (response.status === 500) {
+                    alert('Невозможно удалить Human, поскольку он связан с одним или несколькими Cities');
                 } else {
-                    alert('Ошибка при удалении City');
+                    alert('Ошибка при удалении Humanа');
                 }
                 return;
             }
 
-            setCities((prevCities) => prevCities.filter((city) => city.id !== id));
-            alert('City успешно удалён.');
+            setHumans((prevHumans) => prevHumans.filter((human) => human.id !== id));
+            alert('Human успешно удалён');
         } catch (error) {
             console.error('Ошибка при удалении:', error);
-            alert('Ошибка при удалении Cityа.');
+            alert('Ошибка при удалении Humanа');
         }
     };
 
-    const handleEdit = (city) => {
-        if (city.createdBy?.id !== user.userId && role !== 'ADMIN') {
-            alert('У вас нет разрешения на редактирование этого Cityа.');
+    const handleEdit = (human) => {
+        if (human.createdBy?.id !== user.userId && role !== 'ADMIN') {
+            alert('У вас нет разрешения на редактирование этого Humanа.');
             return;
         }
-        setCityToEdit(city);
+        setHumanToEdit(human);
         setIsEditFormOpen(true);
     };
 
     const handleEditFormClose = () => {
         setIsEditFormOpen(false);
-        setCityToEdit(null);
+        setHumanToEdit(null);
     };
 
-    const handleCityUpdated = (updatedCity) => {
+    const handleHumanUpdated = (updatedHuman) => {
         setIsEditFormOpen(false);
-        setCities((prevCities) =>
-            prevCities.map((city) => (city.id === updatedCity.id ? updatedCity : city))
+        setHumans((prevHumans) =>
+            prevHumans.map((human) => (human.id === updatedHuman.id ? updatedHuman : human))
         );
     };
 
     return (
-        <div className="city-table-wrapper">
-            <div className="city-table-container">
-                <CityTableHeader />
-                {cities.length === 0 ? (
+        <div className="human-table-wrapper">
+            <div className="human-table-container">
+                <HumanTableHeader />
+                {humans.length === 0 ? (
                     <div className="no-data">Не создано ни одного объекта</div>
                 ) : (
-                    cities.map((city, index) =>
-                        city ? (
-                            <CityTableRow
-                                key={city.id}
-                                city={city}
+                    humans.map((human, index) =>
+                        human ? (
+                            <HumanTableRow
+                                key={human.id}
+                                human={human}
                                 index={index}
                                 handleEdit={handleEdit}
                                 handleDelete={handleDelete}
@@ -108,7 +110,7 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
                                 role={role}
                             />
                         ) : (
-                            <div key={index} className="city-table-row no-data">
+                            <div key={index} className="human-table-row no-data">
                                 Некорректные данные
                             </div>
                         )
@@ -123,15 +125,15 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
                     isLastPage={currentPage === totalPages - 1}
                 />
             )}
-            {isEditFormOpen && cityToEdit && (
-                <EditCityForm
-                    cityData={cityToEdit}
+            {isEditFormOpen && humanToEdit && (
+                <EditHumanForm
+                    humanData={humanToEdit}
                     onClose={handleEditFormClose}
-                    onSubmit={handleCityUpdated}
+                    onSubmit={handleHumanUpdated}
                 />
             )}
         </div>
     );
 }
 
-export default CityTable;
+export default HumanTable;

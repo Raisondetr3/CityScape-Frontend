@@ -47,7 +47,7 @@ legend {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    gap: 8px; /* Расстояние между текстом и радио-кнопкой */
+    gap: 8px;
 }
 
 .radio-label input[type="radio"] {

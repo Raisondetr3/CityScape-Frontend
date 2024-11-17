@@ -1,7 +1,9 @@
-.admin-container {
+.main-container {
     background-color: #EFEFF4;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     height: 100vh;
     width: 100vw;
     padding-top: 60px;
@@ -9,12 +11,45 @@
     box-sizing: border-box;
 }
 
+
 .add-city-button-wrapper {
     display: flex;
     justify-content: flex-start;
-    margin: 5px 0px;
+    margin-bottom: 10px;
     width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
+
+.human-content-wrapper {
+    width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+.add-human-button-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.coordinates-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 40px;
+}
+
+
+.add-coordinates-button-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
 

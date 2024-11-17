@@ -17,7 +17,7 @@ function MainButtonsCity({ role }) {
         <div className="main-buttons-container">
             <button className="main-button inactive" onClick={() => handleNavigation('Human')}>Human</button>
             <button className="main-button active" onClick={() => handleNavigation('City')}>City</button>
-            <button className="main-button inactive" onClick={() => handleNavigation('Coordinate')}>Coordinate</button>
+            <button className="main-button inactive" onClick={() => handleNavigation('Coordinates')}>Coordinates</button>
         </div>
     );
 }

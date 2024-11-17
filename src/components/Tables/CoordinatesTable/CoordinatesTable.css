@@ -1,0 +1,69 @@
+.coordinates-table-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.coordinates-table-container {
+    width: 500px;
+}
+
+.coordinates-table-header, .coordinates-table-row {
+    display: grid;
+    grid-template-columns: 150px 150px auto;
+    height: 50px;
+    align-items: center;
+    padding: 0 8px;
+}
+
+.coordinates-table-header {
+    background-color: #D1D3DA;
+    color: #2A2A2A;
+    font-weight: 600;
+    text-align: center;
+}
+
+.coordinates-table-row.even {
+    background-color: #EFEFF4;
+}
+
+.coordinates-table-row.odd {
+    background-color: #F5F5F7;
+}
+
+.coordinates-table-row div {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+.action-icons img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.no-data {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    margin-top: 20px;
+}
+
+.add-coordinates-button-wrapper {
+    width: 500px;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.pagination-controls {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}

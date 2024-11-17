@@ -1,8 +1,18 @@
-.search-bar-wrapper {
+.search-bar-wrapper.center {
     display: flex;
     justify-content: center;
     margin-top: 40px;
 }
+
+.search-bar-wrapper.spread {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
 
 .search-bar {
     display: flex;

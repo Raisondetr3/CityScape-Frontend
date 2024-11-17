@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import ActionButton from './ActionButton';
 import SelectableButton from './SelectableButton';
-import CoordinateInputModal from './CoordinateInputModal';
+import CoordinatesInputModal from './CoordinatesInputModal';
 import './MainButtonPanel.css';
 
 function MainButtonPanel() {
-    const [isCoordinateModalOpen, setCoordinateModalOpen] = useState(false);
+    const [isCoordinatesModalOpen, setCoordinatesModalOpen] = useState(false);
 
-    const toggleCoordinateModal = () => {
-        setCoordinateModalOpen(prevState => !prevState);
+    const toggleCoordinatesModal = () => {
+        setCoordinatesModalOpen(prevState => !prevState);
     };
 
     const getAuthToken = () => localStorage.getItem('token');
@@ -59,7 +59,7 @@ function MainButtonPanel() {
         try {
             const total = await fetchWithAuth(`${process.env.REACT_APP_CITY}/sum-meters-above-sea-level`);
             if (total === null) {
-                alert('Нет доступных городов для расчета суммы metersAboveSeaLevel.');
+                alert('Нет доступных Cities для расчета суммы metersAboveSeaLevel.');
             } else {
                 alert(`Сумма metersAboveSeaLevel: ${total}`);
             }
@@ -73,17 +73,17 @@ function MainButtonPanel() {
     const handleRouteToLargestCity = async () => {
         try {
             const distance = await fetchWithAuth(`${process.env.REACT_APP_CITY}/route-to-largest-city`);
-            alert(`Длина маршрута до крупнейшего города: ${distance}`);
+            alert(`Длина маршрута до крупнейшего City: ${distance}`);
         } catch (error) {
             console.error(error);
             alert(error.message);
         }
     };
 
-    const handleCoordinateSubmit = async (coordinates) => {
+    const handleCoordinatesSubmit = async (coordinates) => {
         const { x, y, z } = coordinates;
         if (x === '' || y === '' || z === '') {
-            alert('Пожалуйста, введите все координаты.');
+            alert('Пожалуйста, введите все Coordinatesы.');
             return;
         }
 
@@ -91,7 +91,7 @@ function MainButtonPanel() {
             const distance = await fetchWithAuth(
                 `${process.env.REACT_APP_CITY}/route-from-user-to-largest-city?userX=${x}&userY=${y}&userZ=${z}`
             );
-            alert(`Длина маршрута от (${x},${y},${z}) до крупнейшего города: ${distance}`);
+            alert(`Длина маршрута от (${x},${y},${z}) до крупнейшего Cityа: ${distance}`);
         } catch (error) {
             console.error(error);
             alert(error.message);
@@ -120,11 +120,11 @@ function MainButtonPanel() {
             <ActionButton label="Длина маршрута от (0,0,0)" onClick={handleRouteToLargestCity} />
 
             <div style={{ position: 'relative', display: 'inline-block' }}>
-                <ActionButton label="Маршрут до крупнейшего города" onClick={toggleCoordinateModal} />
-                {isCoordinateModalOpen && (
-                    <CoordinateInputModal
-                        onClose={() => setCoordinateModalOpen(false)}
-                        onSubmit={handleCoordinateSubmit}
+                <ActionButton label="Маршрут до крупнейшего Cityа" onClick={toggleCoordinatesModal} />
+                {isCoordinatesModalOpen && (
+                    <CoordinatesInputModal
+                        onClose={() => setCoordinatesModalOpen(false)}
+                        onSubmit={handleCoordinatesSubmit}
                     />
                 )}
             </div>

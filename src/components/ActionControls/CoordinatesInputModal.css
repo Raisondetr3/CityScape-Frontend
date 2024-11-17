@@ -1,4 +1,4 @@
-.coordinate-modal {
+.coordinates-modal {
     position: absolute;
     top: 50px;
     width: 270px;
@@ -10,7 +10,7 @@
     overflow-y: auto;
 }
 
-.coordinate-modal-header {
+.coordinates-modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -20,14 +20,14 @@
     font-size: 14px;
 }
 
-.coordinate-modal-content {
+.coordinates-modal-content {
     padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.coordinate-input {
+.coordinates-input {
     width: 100%;
     padding: 8px;
     border: 1px solid #CCCCCC;
