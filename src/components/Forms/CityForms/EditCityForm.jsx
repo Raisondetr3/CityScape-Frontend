@@ -60,7 +60,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
                 birthday: formatDateTimeForInput(prev.governor?.birthday),
             },
         }));
-    }, []);
+    }, [coordinatesList.length, humanList.length]);
 
     const fetchCoordinates = async () => {
         try {
@@ -88,7 +88,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
             const data = await response.json();
             setHumanList(data.content || []);
         } catch (error) {
-            console.error('Ошибка загрузки данных Humanа:', error);
+            console.error('Ошибка загрузки данных Human:', error);
         }
     };
 
@@ -245,7 +245,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
         }
 
         if (!city.coordinates) {
-            newErrors.coordinates = 'Coordinatesы обязательны';
+            newErrors.coordinates = 'Coordinates обязательны';
             valid = false;
         } else {
             if (!city.useExistingCoordinates) {
@@ -316,7 +316,6 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
             } : null,
         };
 
-        console.log('Отправляемые данные:', JSON.stringify(cityDataToUpdate, null, 2));
 
         try {
             const token = localStorage.getItem('token');
@@ -330,7 +329,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Ошибка при обновлении Cityа');
+                throw new Error('Ошибка при обновлении City');
             }
 
             const updatedCity = await response.json();
@@ -455,7 +454,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
                                 onChange={(e) => handleCoordinateSelect(e.target.value)}
                                 required
                             >
-                                <option value="">Выберите Coordinatesы</option>
+                                <option value="">Выберите Coordinates</option>
                                 {coordinatesList.map((coord) => (
                                     <option key={coord.id} value={coord.id}>
                                         X: {coord.x}, Y: {coord.y}

@@ -18,7 +18,7 @@ function CoordinatesInputModal({ onClose, onSubmit }) {
     return (
         <div className="coordinates-modal">
             <div className="coordinates-modal-header">
-                <span>Введите Coordinatesы</span>
+                <span>Введите Coordinates</span>
                 <img
                     src={arrowDown}
                     alt="Close"

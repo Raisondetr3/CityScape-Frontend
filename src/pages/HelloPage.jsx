@@ -10,8 +10,8 @@ const HelloPage = () => {
                 <p>Здесь вы можете управлять объектами и видеть их данные в реальном времени.</p>
                 <p>Для продолжения работы, пожалуйста, войдите или зарегистрируйтесь.</p>
                 <div className="cta-buttons">
-                    <Link to="/login" className="cta-button">Login</Link>
-                    <Link to="/register" className="cta-button">Register</Link>
+                    <Link to="/login" className="cta-button">Войти</Link>
+                    <Link to="/register" className="cta-button">Зарегистрироваться</Link>
                 </div>
             </main>
         </div>

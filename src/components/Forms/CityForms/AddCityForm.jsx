@@ -64,7 +64,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
             const data = await response.json();
             setHumanList(data.content || []);
         } catch (error) {
-            console.error('Ошибка загрузки данных Humanа:', error);
+            console.error('Ошибка загрузки данных Human:', error);
         }
     };
 
@@ -221,7 +221,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
         }
 
         if (!city.coordinates) {
-            newErrors.coordinates = 'Coordinatesы обязательны';
+            newErrors.coordinates = 'Coordinates обязательны';
             valid = false;
         } else {
             if (!city.useExistingCoordinates) {
@@ -296,7 +296,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Ошибка при добавлении Cityа');
+                throw new Error('Ошибка при добавлении City');
             }
 
             const addedCity = await response.json();
@@ -421,7 +421,7 @@ const AddCityForm = ({ onClose, onSubmit }) => {
                                 onChange={(e) => handleCoordinatesSelect(e.target.value)}
                                 required
                             >
-                                <option value="">Выберите Coordinatesы</option>
+                                <option value="">Выберите Coordinates</option>
                                 {coordinatesList.map((coord) => (
                                     <option key={coord.id} value={coord.id}>
                                         X: {coord.x}, Y: {coord.y}

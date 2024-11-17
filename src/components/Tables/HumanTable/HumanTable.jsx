@@ -38,7 +38,7 @@ function HumanTable({ humans = [], setHumans, searchTerm }) {
 
     const handleDelete = async (id, human) => {
         if (human.createdBy?.id !== user.userId && role !== 'ADMIN') {
-            alert('У вас нет разрешения на удаление этого Humanа.');
+            alert('У вас нет разрешения на удаление этого Human.');
             return;
         }
 
@@ -53,11 +53,11 @@ function HumanTable({ humans = [], setHumans, searchTerm }) {
 
             if (!response.ok) {
                 if (response.status === 403) {
-                    alert('У вас нет разрешения на удаление этого Humanа');
-                } else if (response.status === 500) {
+                    alert('У вас нет разрешения на удаление этого Human');
+                } else if (response.status === 500 || response.status === 409) {
                     alert('Невозможно удалить Human, поскольку он связан с одним или несколькими Cities');
                 } else {
-                    alert('Ошибка при удалении Humanа');
+                    alert('Ошибка при удалении Human');
                 }
                 return;
             }
@@ -66,13 +66,13 @@ function HumanTable({ humans = [], setHumans, searchTerm }) {
             alert('Human успешно удалён');
         } catch (error) {
             console.error('Ошибка при удалении:', error);
-            alert('Ошибка при удалении Humanа');
+            alert('Ошибка при удалении Human');
         }
     };
 
     const handleEdit = (human) => {
         if (human.createdBy?.id !== user.userId && role !== 'ADMIN') {
-            alert('У вас нет разрешения на редактирование этого Humanа.');
+            alert('У вас нет разрешения на редактирование этого Human.');
             return;
         }
         setHumanToEdit(human);

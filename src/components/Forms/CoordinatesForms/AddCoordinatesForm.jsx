@@ -81,18 +81,18 @@ const AddCoordinatesForm = ({ onClose, onSubmit }) => {
             }
 
             const addedCoordinates = await response.json();
-            alert('Coordinatesы успешно добавлены!');
+            alert('Coordinates успешно добавлены!');
             onSubmit(addedCoordinates);
         } catch (error) {
             console.error('Ошибка при добавлении Coordinates:', error);
-            alert('Не удалось добавить Coordinatesы.');
+            alert('Не удалось добавить Coordinates.');
         }
     };
 
     return (
         <div className="form-overlay">
             <div className="form-container">
-                <h2>Добавить новые Coordinatesы</h2>
+                <h2>Добавить новые Coordinates</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
                         X:
@@ -114,7 +114,7 @@ const AddCoordinatesForm = ({ onClose, onSubmit }) => {
                         />
                         {errors.y && <span className="error">{errors.y}</span>}
                     </label>
-                    <button type="submit">Добавить Coordinatesы</button>
+                    <button type="submit">Добавить Coordinates</button>
                     <button type="button" onClick={onClose}>
                         Отмена
                     </button>

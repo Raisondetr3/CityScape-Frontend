@@ -52,12 +52,18 @@ function CoordinatesTable({ coordinates = [], setCoordinates }) {
             });
 
             if (!response.ok) {
-                alert('Ошибка при удалении Coordinates');
+                if (response.status === 403) {
+                    alert('У вас нет разрешения на удаление этого Human');
+                } else if (response.status === 409) {
+                    alert('Невозможно удалить Coordinates, поскольку он связан с одним или несколькими Cities');
+                } else {
+                    alert('Ошибка при удалении Coordinates');
+                }
                 return;
             }
 
             setCoordinates((prevCoordinates) => prevCoordinates.filter((item) => item.id !== id));
-            alert('Coordinatesы успешно удалены');
+            alert('Coordinates успешно удалены');
         } catch (error) {
             console.error('Ошибка при удалении:', error);
             alert('Ошибка при удалении Coordinates');

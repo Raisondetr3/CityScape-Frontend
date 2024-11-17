@@ -80,8 +80,6 @@ const AddHumanForm = ({ onClose, onSubmit }) => {
             birthday: new Date(human.birthday).toISOString(),
         };
 
-        console.log('Отправляемые данные:', JSON.stringify(humanData, null, 2));
-
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(`${process.env.REACT_APP_HUMAN}`, {
@@ -94,7 +92,7 @@ const AddHumanForm = ({ onClose, onSubmit }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Ошибка при добавлении Humanа');
+                throw new Error('Ошибка при добавлении Human');
             }
 
             const newHuman = await response.json();
@@ -102,14 +100,14 @@ const AddHumanForm = ({ onClose, onSubmit }) => {
             onSubmit(newHuman);
         } catch (error) {
             console.error(error);
-            alert('Не удалось добавить Humanа.');
+            alert('Не удалось добавить Human.');
         }
     };
 
     return (
         <div className="form-overlay">
             <div className="form-container">
-                <h2>Добавить нового Humanа</h2>
+                <h2>Добавить нового Human</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name:

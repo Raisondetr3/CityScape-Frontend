@@ -14,13 +14,20 @@ const UserHeader = ({ onLogout }) => {
         }
     }, [user, checkRequestStatus]);
 
-    const handleRequestAdmin = () => {
+    const handleRequestAdmin = async () => {
         if (requestStatus === 'pending') {
             alert("Вы уже отправили заявку, и она находится на рассмотрении.");
         } else {
-            requestAdminRole(user.userId);
+            try {
+                await requestAdminRole(user.userId);
+                alert("Заявка на получение прав администратора отправлена.");
+            } catch (error) {
+                alert("Произошла ошибка при отправке заявки на права ADMIN.");
+                console.error("Ошибка при запросе прав ADMIN:", error);
+            }
         }
     };
+
 
     return (
         <header className="header">

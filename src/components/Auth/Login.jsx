@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import './Auth.css';
 import { UserContext } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const { login } = useContext(UserContext);
@@ -8,6 +9,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,7 +33,6 @@ const Login = () => {
             const data = await response.json();
             login(data.token);
             setSuccessMessage('Вход успешен! Вы будете перенаправлены.');
-
         } catch (error) {
             setErrorMessage('Произошла ошибка при авторизации.');
         }
@@ -63,6 +64,12 @@ const Login = () => {
                 {successMessage && <p className="success-message">{successMessage}</p>}
                 <button type="submit">Войти</button>
             </form>
+            <div className="auth-navigation">
+                <p>Нет аккаунта?</p>
+                <button className="navigation-button" onClick={() => navigate('/register')}>
+                    Зарегистрироваться
+                </button>
+            </div>
         </div>
     );
 };

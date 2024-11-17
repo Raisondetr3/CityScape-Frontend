@@ -7,4 +7,5 @@
     background-color: #EFEFF4;
     gap: 10px;
     margin: 30px 40px;
+    z-index: 500;
 }

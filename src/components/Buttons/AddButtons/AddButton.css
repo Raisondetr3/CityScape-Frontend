@@ -15,8 +15,8 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.add-human-button:hover {
-    background-color: #0056b3;
+.add-button:hover {
+    background-color: #0037ff;
 }
 
 .plus-icon {

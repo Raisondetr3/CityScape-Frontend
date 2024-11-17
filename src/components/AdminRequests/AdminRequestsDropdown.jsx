@@ -12,24 +12,33 @@ const AdminRequestsDropdown = ({ isVisible }) => {
     }, [isVisible]);
 
     const fetchAdminRequests = async () => {
-        const token = localStorage.getItem('token');
         try {
-            const response = await fetch(`${process.env.Auth}/admin-requests`, {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${process.env.REACT_APP_AUTH}/admin-requests`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                    'Authorization': `Bearer ${token}`,
+                },
             });
-            const data = await response.json();
-            setRequests(data);
+
+            if (!response.ok) {
+                console.error("Ошибка при загрузке заявок администратора");
+                setRequests([]);
+                return;
+            }
+
+            const requests = await response.json();
+            setRequests(requests);
         } catch (error) {
-            console.error("Ошибка загрузки заявок:", error);
+            console.error('Ошибка при получении заявок администратора:', error);
+            setRequests([]);
         }
     };
+
 
     const handleApprove = async (userId) => {
         const token = localStorage.getItem('token');
         try {
-            await fetch(`${process.env.REACT_APP_API_BASE_URL}/approve-admin`, {
+            await fetch(`${process.env.REACT_APP_AUTH}/approve-admin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

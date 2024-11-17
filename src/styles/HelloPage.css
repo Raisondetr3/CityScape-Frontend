@@ -46,7 +46,7 @@
 .hello-page-container .cta-button {
     padding: 12px 35px;
     font-size: 16px;
-    background-color: #3498DB;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 6px;
@@ -59,7 +59,7 @@
 }
 
 .hello-page-container .cta-button:hover {
-    background-color: #2980B9;
+    background-color: #0037ff;
 }
 
 

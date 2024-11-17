@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, {createContext, useState, useEffect, useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const UserContext = createContext();
@@ -22,7 +22,6 @@ export const UserProvider = ({ children }) => {
 
     const login = (token) => {
         const userData = parseJwt(token);
-        console.log("User data on login:", userData);
         setUser(userData);
         setRole(userData.role);
         localStorage.setItem('token', token);
@@ -57,8 +56,6 @@ export const UserProvider = ({ children }) => {
         );
         const parsedData = JSON.parse(jsonPayload);
 
-        console.log("Decoded JWT payload:", parsedData);
-
         return {
             ...parsedData,
             userId: parsedData.userId || parsedData.sub,
@@ -76,23 +73,27 @@ export const UserProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ userId }),
             });
+
+            if (!response.ok) {
+                throw new Error("Ошибка при отправке заявки");
+            }
+
             const message = await response.text();
 
-            if (message.includes("User has been granted ADMIN rights immediately")) {
+            if (message.includes("Пользователю немедленно предоставлены права ADMIN")) {
                 setRole('ADMIN');
-                alert("Заявка на получение прав администратора одобрена. Перезайдите в аккаунт, чтобы перейти на Admin Dashboard.");
             } else if (message.includes("Admin approval requested")) {
                 setRequestStatus('pending');
                 setHasRequestedAdminRole(true);
-                alert("Заявка на получение прав администратора отправлена.");
             }
         } catch (error) {
             console.error('Ошибка при запросе на роль администратора', error);
+            throw error;
         }
     };
 
 
-    const checkRequestStatus = async (userId) => {
+    const checkRequestStatus = useCallback(async (userId) => {
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(`${process.env.REACT_APP_AUTH}/admin-requests/status?userId=${userId}`, {
@@ -102,9 +103,7 @@ export const UserProvider = ({ children }) => {
             });
             const status = await response.text();
 
-            if (status === "Ваша заявка на администратора находится в ожидании."
-                || status === "Ваша заявка одобрена."
-                || status === "Ваша заявка отклонена.") {
+            if (status.includes("ожидании")) {
                 setRequestStatus('pending');
                 setHasRequestedAdminRole(true);
             } else {
@@ -114,7 +113,8 @@ export const UserProvider = ({ children }) => {
         } catch (error) {
             console.error("Ошибка при получении статуса заявки на администратора:", error);
         }
-    };
+    }, []);
+
 
     return (
         <UserContext.Provider value={{

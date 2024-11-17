@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Auth.css';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -7,6 +8,7 @@ const Register = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [isAdminRequest, setIsAdminRequest] = useState(false);
+    const navigate = useNavigate();
 
     const validatePassword = (password) => {
         const minLength = 6;
@@ -41,7 +43,6 @@ const Register = () => {
                 return;
             }
 
-            // Проверка наличия администратора в системе
             const adminCheck = await fetch(`${process.env.REACT_APP_AUTH}/admin-exists`, {
                 method: 'GET',
             });
@@ -49,7 +50,7 @@ const Register = () => {
 
             if (adminExists) {
                 setIsAdminRequest(true);
-                setSuccessMessage('Заявка на права администратора отправлена. Ожидайте подтверждения.');
+                setSuccessMessage('Регистрация успешна!');
             } else {
                 setSuccessMessage('Регистрация успешна!');
             }
@@ -88,6 +89,12 @@ const Register = () => {
                 {isAdminRequest && <p>Администратор рассмотрит вашу заявку.</p>}
                 <button type="submit">Зарегистрироваться</button>
             </form>
+            <div className="auth-navigation">
+                <p>Уже есть аккаунт?</p>
+                <button className="navigation-button" onClick={() => navigate('/login')}>
+                    Войти
+                </button>
+            </div>
         </div>
     );
 };

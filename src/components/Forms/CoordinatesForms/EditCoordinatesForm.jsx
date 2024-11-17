@@ -63,13 +63,18 @@ const EditCoordinatesForm = ({ coordinatesData, onClose, onSubmit }) => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${process.env.REACT_APP_COORDINATES}/${coordinates.id}`, {
+
+            const { id, x, y } = coordinates;
+            const requestBody = JSON.stringify({ id, x, y });
+
+
+            const response = await fetch(`${process.env.REACT_APP_COORDINATES}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(coordinates),
+                body: requestBody,
             });
 
             if (!response.ok) {
@@ -77,18 +82,18 @@ const EditCoordinatesForm = ({ coordinatesData, onClose, onSubmit }) => {
             }
 
             const updatedCoordinates = await response.json();
-            alert('Coordinatesы успешно обновлены!');
+            alert('Coordinates успешно обновлены!');
             onSubmit(updatedCoordinates);
         } catch (error) {
             console.error('Ошибка при обновлении Coordinates:', error);
-            alert('Не удалось обновить Coordinatesы.');
+            alert('Не удалось обновить Coordinates.');
         }
     };
 
     return (
         <div className="form-overlay">
             <div className="form-container">
-                <h2>Редактировать Coordinatesы</h2>
+                <h2>Редактировать Coordinates</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
                         X:

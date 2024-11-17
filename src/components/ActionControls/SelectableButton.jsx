@@ -10,7 +10,6 @@ function SelectableButton({ label, options, onSubmit }) {
     };
 
     const handleOptionSelect = async (option) => {
-        console.log(`Option selected: ${option}`);
         setModalOpen(false);
         try {
             await onSubmit(option);

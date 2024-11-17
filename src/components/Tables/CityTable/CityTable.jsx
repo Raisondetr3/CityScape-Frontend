@@ -64,13 +64,13 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
             alert('City успешно удалён.');
         } catch (error) {
             console.error('Ошибка при удалении:', error);
-            alert('Ошибка при удалении Cityа.');
+            alert('Ошибка при удалении City.');
         }
     };
 
     const handleEdit = (city) => {
         if (city.createdBy?.id !== user.userId && role !== 'ADMIN') {
-            alert('У вас нет разрешения на редактирование этого Cityа.');
+            alert('У вас нет разрешения на редактирование этого City.');
             return;
         }
         setCityToEdit(city);
