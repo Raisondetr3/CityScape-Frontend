@@ -1,4 +1,4 @@
-import React, {createContext, useState, useEffect, useCallback} from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const UserContext = createContext();
@@ -13,12 +13,33 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            const userData = parseJwt(token);
-            setUser(userData);
-            setRole(userData.role);
-            if (userData.userId) checkRequestStatus(userData.userId);
+            fetchCurrentUser(); // Загружаем данные текущего пользователя с сервера
         }
     }, []);
+
+    const fetchCurrentUser = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_AUTH}/current`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Не удалось загрузить данные текущего пользователя.');
+            }
+
+            const userData = await response.json();
+            setUser(userData);
+            setRole(userData.role);
+        } catch (error) {
+            console.error('Ошибка при получении текущего пользователя:', error);
+            logout(); // Если запрос не удался, выполняем выход
+        }
+    };
 
     const login = (token) => {
         const userData = parseJwt(token);
@@ -26,9 +47,8 @@ export const UserProvider = ({ children }) => {
         setRole(userData.role);
         localStorage.setItem('token', token);
 
-        if (userData.userId) checkRequestStatus(userData.userId);
+        fetchCurrentUser(); // Загружаем актуальные данные с сервера
 
-        // Перенаправление после установки роли
         if (userData.role === 'ADMIN') {
             navigate('/admin');
         } else {
@@ -54,12 +74,7 @@ export const UserProvider = ({ children }) => {
                 .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
                 .join('')
         );
-        const parsedData = JSON.parse(jsonPayload);
-
-        return {
-            ...parsedData,
-            userId: parsedData.userId || parsedData.sub,
-        };
+        return JSON.parse(jsonPayload);
     };
 
     const requestAdminRole = async (userId) => {
@@ -87,11 +102,10 @@ export const UserProvider = ({ children }) => {
                 setHasRequestedAdminRole(true);
             }
         } catch (error) {
-            console.error('Ошибка при запросе на роль администратора', error);
+            console.error('Ошибка при запросе на роль администратора:', error);
             throw error;
         }
     };
-
 
     const checkRequestStatus = useCallback(async (userId) => {
         try {
@@ -115,6 +129,49 @@ export const UserProvider = ({ children }) => {
         }
     }, []);
 
+    const updateUser = async (updatedData) => {
+        try {
+            // Шаг 1: Отправляем запрос на обновление пользователя
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${process.env.REACT_APP_AUTH}/current`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(updatedData),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Ошибка при обновлении данных пользователя');
+            }
+
+            // Шаг 2: Получаем новый токен и данные пользователя
+            const { token: newToken, user: updatedUser } = await response.json();
+
+            // Шаг 3: Сохраняем новый токен
+            localStorage.setItem('token', newToken);
+
+            // Шаг 4: Обновляем состояние пользователя
+            setUser(updatedUser);
+
+            // Уведомляем пользователя об успешном обновлении
+            alert('Имя пользователя успешно обновлено.');
+        } catch (error) {
+            // Обрабатываем ошибки
+            if (error.message.includes('already exists')) {
+                alert('Имя пользователя уже занято. Попробуйте другое.');
+            } else if (error.message.includes('Validation failed')) {
+                alert('Некорректное имя пользователя. Проверьте формат.');
+            } else {
+                alert('Не удалось обновить имя пользователя.');
+            }
+            console.error('Ошибка при обновлении имени пользователя:', error);
+        }
+    };
+
+
 
     return (
         <UserContext.Provider value={{
@@ -125,9 +182,10 @@ export const UserProvider = ({ children }) => {
             requestAdminRole,
             requestStatus,
             hasRequestedAdminRole,
-            checkRequestStatus }}>
+            checkRequestStatus,
+            updateUser,
+        }}>
             {children}
         </UserContext.Provider>
     );
-
 };

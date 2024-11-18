@@ -86,7 +86,6 @@ const Register = () => {
                 </div>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
                 {successMessage && <p className="success-message">{successMessage}</p>}
-                {isAdminRequest && <p>Администратор рассмотрит вашу заявку.</p>}
                 <button type="submit">Зарегистрироваться</button>
             </form>
             <div className="auth-navigation">

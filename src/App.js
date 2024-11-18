@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
@@ -13,7 +13,13 @@ import HelloPage from './pages/HelloPage';
 import NotFound from './pages/NotFound';
 
 const App = () => {
-    const { user, role, logout, requestAdminRole } = useContext(UserContext);
+    const { user, role, logout, saveCurrentPath } = useContext(UserContext);
+    const location = useLocation();
+
+    useEffect(() => {
+        // Сохраняем текущий путь в localStorage
+        saveCurrentPath(location.pathname);
+    }, [location, saveCurrentPath]);
 
     return (
         <div className="app-container">
@@ -32,9 +38,9 @@ const App = () => {
                 <Route path="/admin/coordinates" element={role === 'ADMIN' ? <AdminCoordinatesPage onLogout={logout} role={role} /> : <Navigate to="/login" />} />
 
                 {/* User routes */}
-                <Route path="/user/city" element={user ? <UserCityPage onLogout={logout} onRequestAdmin={requestAdminRole} role={role} /> : <Navigate to="/login" />} />
-                <Route path="/user/human" element={user ? <UserHumanPage onLogout={logout} onRequestAdmin={requestAdminRole} role={role} /> : <Navigate to="/login" />} />
-                <Route path="/user/coordinates" element={user ? <UserCoordinatesPage onLogout={logout} onRequestAdmin={requestAdminRole} role={role} /> : <Navigate to="/login" />} />
+                <Route path="/user/city" element={user ? <UserCityPage onLogout={logout} role={role} /> : <Navigate to="/login" />} />
+                <Route path="/user/human" element={user ? <UserHumanPage onLogout={logout} role={role} /> : <Navigate to="/login" />} />
+                <Route path="/user/coordinates" element={user ? <UserCoordinatesPage onLogout={logout} role={role} /> : <Navigate to="/login" />} />
 
                 <Route path="*" element={<NotFound />} />
             </Routes>
