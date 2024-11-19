@@ -19,6 +19,7 @@ const AdminHeader = ({ onLogout }) => {
     }, [user]);
 
     const toggleDropdown = () => {
+        console.log('Переключение видимости дропдауна:', !isDropdownVisible);
         setIsDropdownVisible(!isDropdownVisible);
     };
 
@@ -95,7 +96,7 @@ const AdminHeader = ({ onLogout }) => {
                         <div className="tooltip">Просмотреть заявки на права ADMIN</div>
                     )}
                 </div>
-                {isDropdownVisible && <AdminRequestsDropdown />}
+                {isDropdownVisible && <AdminRequestsDropdown isVisible={isDropdownVisible} />}
                 <LogoutButton onLogout={onLogout} />
             </div>
         </header>

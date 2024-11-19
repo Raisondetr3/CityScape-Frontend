@@ -26,6 +26,7 @@ function CoordinatesTable({ coordinates = [], setCoordinates }) {
                     'Authorization': `Bearer ${token}`,
                 },
             });
+
             const data = await response.json();
             setCoordinates(data.content || []);
             setCurrentPage(data.currentPage || 0);
@@ -36,8 +37,10 @@ function CoordinatesTable({ coordinates = [], setCoordinates }) {
         }
     };
 
+
+
     const handleDelete = async (id, coordinates) => {
-        if (coordinates.createdBy?.id !== user.userId && role !== 'ADMIN') {
+        if (coordinates.createdBy?.id !== user.id && role !== 'ADMIN') {
             alert('У вас нет разрешения на удаление этих Coordinates.');
             return;
         }
@@ -52,26 +55,25 @@ function CoordinatesTable({ coordinates = [], setCoordinates }) {
             });
 
             if (!response.ok) {
-                if (response.status === 403) {
-                    alert('У вас нет разрешения на удаление этого Human');
-                } else if (response.status === 409) {
-                    alert('Невозможно удалить Coordinates, поскольку он связан с одним или несколькими Cities');
-                } else {
-                    alert('Ошибка при удалении Coordinates');
-                }
+                const errorMessage = response.status === 403
+                    ? 'У вас нет разрешения на удаление этих Coordinates'
+                    : response.status === 409
+                        ? 'Невозможно удалить Coordinates, поскольку он связан с одним или несколькими Cities'
+                        : 'Невозможно удалить Coordinates, поскольку он связан с одним или несколькими Cities';
+                alert(errorMessage);
                 return;
             }
 
             setCoordinates((prevCoordinates) => prevCoordinates.filter((item) => item.id !== id));
             alert('Coordinates успешно удалены');
         } catch (error) {
-            console.error('Ошибка при удалении:', error);
-            alert('Ошибка при удалении Coordinates');
+            console.error('Ошибка при удалении Coordinates:', error);
+            alert('Ошибка при удалении Coordinates.');
         }
     };
 
     const handleEdit = (coordinates) => {
-        if (coordinates.createdBy?.id !== user.userId && role !== 'ADMIN') {
+        if (coordinates.createdBy?.id !== user.id && role !== 'ADMIN') {
             alert('У вас нет разрешения на редактирование этих Coordinates.');
             return;
         }
@@ -90,6 +92,10 @@ function CoordinatesTable({ coordinates = [], setCoordinates }) {
             prevCoordinates.map((item) => (item.id === updatedCoordinates.id ? updatedCoordinates : item))
         );
     };
+
+    console.log('Данные Сoordinates:', JSON.stringify(coordinates, null, 2));
+
+    console.log('Данные User:', JSON.stringify(user, null, 2));
 
     return (
         <div className="coordinates-table-wrapper">

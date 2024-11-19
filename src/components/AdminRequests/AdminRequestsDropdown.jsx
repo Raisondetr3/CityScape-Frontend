@@ -7,32 +7,48 @@ const AdminRequestsDropdown = ({ isVisible }) => {
 
     useEffect(() => {
         if (isVisible) {
+            console.log('Выполняется запрос на загрузку заявок администратора');
             fetchAdminRequests();
         }
     }, [isVisible]);
 
+
     const fetchAdminRequests = async () => {
+        console.log('fetchAdminRequests вызван');
         try {
             const token = localStorage.getItem('token');
+            console.log('Отправляемый запрос:', {
+                url: `${process.env.REACT_APP_AUTH}/admin-requests`,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
             const response = await fetch(`${process.env.REACT_APP_AUTH}/admin-requests`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
 
+            console.log('Ответ сервера:', response);
+
             if (!response.ok) {
-                console.error("Ошибка при загрузке заявок администратора");
+                const errorText = await response.text();
+                console.error("Ошибка при загрузке заявок администратора:", response.status, errorText);
                 setRequests([]);
                 return;
             }
 
             const requests = await response.json();
+            console.log('Полученные данные:', requests);
             setRequests(requests);
         } catch (error) {
             console.error('Ошибка при получении заявок администратора:', error);
             setRequests([]);
         }
     };
+
+
 
 
     const handleApprove = async (userId) => {

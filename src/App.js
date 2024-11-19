@@ -17,8 +17,9 @@ const App = () => {
     const location = useLocation();
 
     useEffect(() => {
-        // Сохраняем текущий путь в localStorage
-        saveCurrentPath(location.pathname);
+        if (saveCurrentPath) {
+            saveCurrentPath(location.pathname);
+        }
     }, [location, saveCurrentPath]);
 
     return (

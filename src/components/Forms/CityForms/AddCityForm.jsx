@@ -266,6 +266,28 @@ const AddCityForm = ({ onClose, onSubmit }) => {
             return;
         }
 
+        const cleanedCoordinates = city.coordinates && city.useExistingCoordinates
+            ? {
+                id: city.coordinates.id,
+                x: city.coordinates.x,
+                y: city.coordinates.y,
+            }
+            : city.coordinates;
+
+        const cleanedGovernor = city.useExistingGovernor
+            ? {
+                id: city.governor.id,
+                name: city.governor.name,
+                age: city.governor.age,
+                height: city.governor.height,
+            }
+            : {
+                ...city.governor,
+                birthday: city.governor.birthday
+                    ? new Date(city.governor.birthday).toISOString()
+                    : null,
+            };
+
         const cityData = {
             ...city,
             climate: city.climate || null,
@@ -273,16 +295,11 @@ const AddCityForm = ({ onClose, onSubmit }) => {
             establishmentDate: city.establishmentDate
                 ? new Date(city.establishmentDate).toISOString()
                 : null,
-            governor: city.useExistingGovernor
-                ? city.governor
-                : {
-                    ...city.governor,
-                    birthday: city.governor.birthday
-                        ? new Date(city.governor.birthday).toISOString()
-                        : null,
-                },
-            coordinates: city.coordinates,
+            governor: cleanedGovernor,
+            coordinates: cleanedCoordinates,
         };
+
+        console.log('Отправляемые данные City:', JSON.stringify(cityData, null, 2));
 
         try {
             const token = localStorage.getItem('token');

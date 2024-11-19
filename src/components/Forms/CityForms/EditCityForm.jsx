@@ -71,6 +71,7 @@ const EditCityForm = ({ cityData, onClose, onSubmit }) => {
                 },
             });
             const data = await response.json();
+            console.log('Fetched coordinates data:', data);
             setCoordinatesList(data.content || []);
         } catch (error) {
             console.error('Ошибка загрузки Coordinates:', error);

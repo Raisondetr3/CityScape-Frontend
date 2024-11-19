@@ -37,7 +37,7 @@ function HumanTable({ humans = [], setHumans, searchTerm }) {
     };
 
     const handleDelete = async (id, human) => {
-        if (human.createdBy?.id !== user.userId && role !== 'ADMIN') {
+        if (human.createdBy?.id !== user.id && role !== 'ADMIN') {
             alert('У вас нет разрешения на удаление этого Human.');
             return;
         }
@@ -52,26 +52,25 @@ function HumanTable({ humans = [], setHumans, searchTerm }) {
             });
 
             if (!response.ok) {
-                if (response.status === 403) {
-                    alert('У вас нет разрешения на удаление этого Human');
-                } else if (response.status === 500 || response.status === 409) {
-                    alert('Невозможно удалить Human, поскольку он связан с одним или несколькими Cities');
-                } else {
-                    alert('Ошибка при удалении Human');
-                }
+                const errorMessage = response.status === 403
+                    ? 'У вас нет разрешения на удаление этого Human'
+                    : response.status === 409 || response.status === 500
+                        ? 'Невозможно удалить Human, поскольку он связан с одним или несколькими Cities'
+                        : 'Ошибка при удалении Human';
+                alert(errorMessage);
                 return;
             }
 
             setHumans((prevHumans) => prevHumans.filter((human) => human.id !== id));
             alert('Human успешно удалён');
         } catch (error) {
-            console.error('Ошибка при удалении:', error);
-            alert('Ошибка при удалении Human');
+            console.error('Ошибка при удалении Human:', error);
+            alert('Ошибка при удалении Human.');
         }
     };
 
     const handleEdit = (human) => {
-        if (human.createdBy?.id !== user.userId && role !== 'ADMIN') {
+        if (human.createdBy?.id !== user.id && role !== 'ADMIN') {
             alert('У вас нет разрешения на редактирование этого Human.');
             return;
         }

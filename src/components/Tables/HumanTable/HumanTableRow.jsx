@@ -22,7 +22,7 @@ function HumanTableRow({ human, index, handleEdit, handleDelete, user, role }) {
             <div>{human.height || 'N/A'}</div>
             <div>{formatDate(human.birthday)}</div>
             <div className="action-icons">
-                {(human.createdBy?.id === user.userId || role === 'ADMIN') ? (
+                {(human.createdBy?.id !== user.userId || role === 'ADMIN') ? (
                     <>
                         <img src={editIcon} alt="Edit" onClick={() => handleEdit(human)} />
                         <img src={deleteIcon} alt="Delete" onClick={() => handleDelete(human.id, human)} />

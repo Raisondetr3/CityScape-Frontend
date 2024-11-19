@@ -69,7 +69,7 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
     };
 
     const handleEdit = (city) => {
-        if (city.createdBy?.id !== user.userId && role !== 'ADMIN') {
+        if (city.createdBy?.id !== user.id || role !== 'ADMIN') {
             alert('У вас нет разрешения на редактирование этого City.');
             return;
         }

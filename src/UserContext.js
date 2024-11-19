@@ -17,6 +17,10 @@ export const UserProvider = ({ children }) => {
         }
     }, []);
 
+    const saveCurrentPath = (path) => {
+        localStorage.setItem('currentPath', path);
+    };
+
     const fetchCurrentUser = async () => {
         const token = localStorage.getItem('token');
         if (!token) return;
@@ -33,6 +37,7 @@ export const UserProvider = ({ children }) => {
             }
 
             const userData = await response.json();
+            console.log('Fetched user data:', userData);
             setUser(userData);
             setRole(userData.role);
         } catch (error) {
@@ -184,6 +189,7 @@ export const UserProvider = ({ children }) => {
             hasRequestedAdminRole,
             checkRequestStatus,
             updateUser,
+            saveCurrentPath,
         }}>
             {children}
         </UserContext.Provider>

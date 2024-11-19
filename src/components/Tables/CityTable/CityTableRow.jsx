@@ -25,7 +25,7 @@ function CityTableRow({ city, index, handleEdit, handleDelete, user, role }) {
                 {city.governor?.name || 'N/A'}
             </div>
             <div className="action-icons">
-                {(city.createdBy?.id === user.userId || role === 'ADMIN') ? (
+                    {(city.createdBy?.id === user.id || role === 'ADMIN') ? (
                     <>
                         <img src={editIcon} alt="Edit" onClick={() => handleEdit(city)} />
                         <img src={deleteIcon} alt="Delete" onClick={() => handleDelete(city.id, city)} />
