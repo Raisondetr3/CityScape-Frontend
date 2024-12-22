@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            fetchCurrentUser(); // Загружаем данные текущего пользователя с сервера
+            fetchCurrentUser();
         }
     }, []);
 
@@ -152,19 +152,14 @@ export const UserProvider = ({ children }) => {
                 throw new Error(errorData.error || 'Ошибка при обновлении данных пользователя');
             }
 
-            // Шаг 2: Получаем новый токен и данные пользователя
             const { token: newToken, user: updatedUser } = await response.json();
 
-            // Шаг 3: Сохраняем новый токен
             localStorage.setItem('token', newToken);
 
-            // Шаг 4: Обновляем состояние пользователя
             setUser(updatedUser);
 
-            // Уведомляем пользователя об успешном обновлении
             alert('Имя пользователя успешно обновлено.');
         } catch (error) {
-            // Обрабатываем ошибки
             if (error.message.includes('already exists')) {
                 alert('Имя пользователя уже занято. Попробуйте другое.');
             } else if (error.message.includes('Validation failed')) {

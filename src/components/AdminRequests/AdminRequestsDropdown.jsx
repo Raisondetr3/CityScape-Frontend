@@ -72,7 +72,7 @@ const AdminRequestsDropdown = ({ isVisible }) => {
     const handleReject = async (userId) => {
         const token = localStorage.getItem('token');
         try {
-            await fetch(`${process.env.REACT_APP_API_BASE_URL}/reject-admin`, {
+            await fetch(`${process.env.REACT_APP_AUTH}/reject-admin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

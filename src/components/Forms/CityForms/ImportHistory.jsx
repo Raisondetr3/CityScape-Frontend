@@ -6,17 +6,12 @@ const ImportHistory = ({ refreshTrigger }) => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const { user, role } = useContext(UserContext); // Получаем текущего пользователя и его роль
+    const { user, role } = useContext(UserContext);
 
     const fetchHistory = async () => {
         try {
             const token = localStorage.getItem('token');
-            const url =
-                role === 'ADMIN'
-                    ? `${process.env.REACT_APP_API_BASE_URL}/import/history` // Для администратора — все операции
-                    : `${process.env.REACT_APP_API_BASE_URL}/import/history?userId=${user.id}`; // Для пользователя — только его операции
-
-            const response = await fetch(url, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/import/history`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -27,7 +22,12 @@ const ImportHistory = ({ refreshTrigger }) => {
             }
 
             const data = await response.json();
-            setHistory(data);
+
+            const filteredHistory =
+                role === 'ADMIN'
+                    ? data
+                    : data.filter((operation) => operation.username === user.username);
+            setHistory(filteredHistory);
         } catch (err) {
             console.error(err);
             setError('Не удалось загрузить историю.');
@@ -37,8 +37,8 @@ const ImportHistory = ({ refreshTrigger }) => {
     };
 
     useEffect(() => {
-        if (user) fetchHistory(); // Загружаем историю только если пользователь определён
-    }, [refreshTrigger, user, role]); // Добавляем зависимость от пользователя и роли
+        if (user) fetchHistory();
+    }, [refreshTrigger, user, role]);
 
     const formatStatus = (status) => {
         switch (status) {
@@ -71,6 +71,7 @@ const ImportHistory = ({ refreshTrigger }) => {
                         <th>Добавлено объектов</th>
                         <th>Пользователь</th>
                         <th>Дата и время</th>
+                        <th>Файл</th> {/* Новый столбец для файла */}
                     </tr>
                     </thead>
                     <tbody>
@@ -81,6 +82,15 @@ const ImportHistory = ({ refreshTrigger }) => {
                             <td>{operation.objectsAdded}</td>
                             <td>{operation.username}</td>
                             <td>{new Date(operation.timestamp).toLocaleString()}</td>
+                            <td>
+                                {operation.fileDownloadUrl ? (
+                                    <a href={operation.fileDownloadUrl} target="_blank" rel="noopener noreferrer">
+                                        Скачать
+                                    </a>
+                                ) : (
+                                    <span>Нет файла</span>
+                                )}
+                            </td>
                         </tr>
                     ))}
                     </tbody>

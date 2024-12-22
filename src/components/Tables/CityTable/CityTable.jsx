@@ -5,11 +5,15 @@ import CityTableHeader from './CityTableHeader';
 import CityTableRow from './CityTableRow';
 import EditCityForm from '../../Forms/CityForms/EditCityForm';
 import PaginationControls from '../../Pagination/PaginationControls';
+import ImportCityForm from '../../Forms/CityForms/ImportCityForm';
+import ImportHistory from '../../Forms/CityForms/ImportHistory';
 
 function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+    const [isImportFormOpen, setIsImportFormOpen] = useState(false); // Для формы импорта
+    const [showImportHistory, setShowImportHistory] = useState(false); // Для истории импорта
     const [cityToEdit, setCityToEdit] = useState(null);
 
     const { user, role } = useContext(UserContext);
@@ -37,7 +41,8 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
     };
 
     const handleDelete = async (id, city) => {
-        if (city.createdBy?.id !== user.userId && role !== 'ADMIN') {
+        if (city.createdBy?.id !== user.id && role !== 'ADMIN') {
+            console.log(city.createdBy?.id, user.userId)
             alert('У вас нет разрешения на удаление этого City.');
             return;
         }
@@ -69,7 +74,7 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
     };
 
     const handleEdit = (city) => {
-        if (city.createdBy?.id !== user.id || role !== 'ADMIN') {
+        if (city.createdBy?.id !== user.id && role !== 'ADMIN') {
             alert('У вас нет разрешения на редактирование этого City.');
             return;
         }
@@ -87,6 +92,11 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
         setCities((prevCities) =>
             prevCities.map((city) => (city.id === updatedCity.id ? updatedCity : city))
         );
+    };
+
+    const handleImportSuccess = () => {
+        setIsImportFormOpen(false);
+        fetchCities(currentPage, searchTerm, governorSearchTerm); // Обновить таблицу после импорта
     };
 
     return (
@@ -130,6 +140,13 @@ function CityTable({ cities = [], setCities, searchTerm, governorSearchTerm }) {
                     onSubmit={handleCityUpdated}
                 />
             )}
+            {isImportFormOpen && (
+                <ImportCityForm
+                    onClose={() => setIsImportFormOpen(false)}
+                    onImportSuccess={() => fetchCities(currentPage, searchTerm, governorSearchTerm)}
+                />
+            )}
+            {showImportHistory && <ImportHistory onClose={() => setShowImportHistory(false)} />}
         </div>
     );
 }

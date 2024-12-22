@@ -1,3 +1,21 @@
+.action-buttons-wrapper {
+    display: flex;
+    margin: 20px 0;
+}
+
+.add-button,
+.import-button,
+.history-button {
+    margin-right: 16px;
+}
+
+.add-button:last-child,
+.import-button:last-child,
+.history-button:last-child {
+    margin-right: 0;
+}
+
+
 .add-button {
     display: flex;
     align-items: center;
@@ -13,6 +31,7 @@
     gap: 10px;
     cursor: pointer;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
 .add-button:hover {

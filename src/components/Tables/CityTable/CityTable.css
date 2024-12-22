@@ -79,3 +79,46 @@
     color: #333333;
     cursor: pointer;
 }
+
+.history-container {
+    margin: 20px auto;
+    width: 100%;
+    max-width: 1260px;
+    font-family: 'Roboto', sans-serif;
+    color: #333333;
+}
+
+/* Стили для таблицы истории */
+.history-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-container th, .history-container td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.history-container th {
+    background-color: #D1D3DA;
+    font-weight: 600;
+}
+
+.history-container tr:nth-child(even) {
+    background-color: #EFEFF4;
+}
+
+.history-container tr:nth-child(odd) {
+    background-color: #F5F5F7;
+}
+
+.history-container tr:hover {
+    background-color: #e0e0e0;
+}
+
+.history-container .error {
+    color: #ff4c4c;
+    text-align: center;
+    margin: 10px 0;
+}
